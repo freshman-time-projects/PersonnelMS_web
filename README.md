@@ -1,22 +1,12 @@
-# ice-scaffold-lite
+3. Commit your code
+4. Create Pull Request
 
-> 使用文档
 
-使用:
+#### Gitee Feature
 
-* 启动调试服务: `npm start`
-* 构建 dist: `npm run build`
-
-目录结构:
-
-* react-router @4.x 默认采用 hashHistory 的单页应用
-* 入口文件: `src/index.js`
-* 导航配置: `src/menuConfig.js`
-* 路由配置: `src/routerConfig.js`
-* 路由入口: `src/router.jsx`
-* 布局文件: `src/layouts`
-* 通用组件: `src/components`
-* 页面文件: `src/pages`
-
-效果图:
-![screenshot](https://img.alicdn.com/tfs/TB1IM1JmuuSBuNjy1XcXXcYjFXa-1920-1080.png)
+1. You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
+2. Gitee blog [blog.gitee.com](https://blog.gitee.com)
+3. Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
+4. The most valuable open source project [GVP](https://gitee.com/gvp)
+5. The manual of Gitee [http://git.mydoc.io/](http://git.mydoc.io/)
+6. The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
