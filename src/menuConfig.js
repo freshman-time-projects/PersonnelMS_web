@@ -24,7 +24,25 @@ const headerMenuConfig = [
   },
 ];
 
-const asideMenuConfig = [
+const userMenuConfig = [
+  {
+    name: '首页',
+    path: '/index',
+    icon: 'home',
+  },
+  {
+    name: '员工列表',
+    path: '/employee/list',
+    icon: 'shezhi',
+  },
+  {
+    name: '修改个人信息',
+    path: '/employee/edit',
+    icon: 'shezhi',
+  },
+];
+
+const adminMenuConfig = [
   {
     name: '首页',
     path: '/',
@@ -36,20 +54,57 @@ const asideMenuConfig = [
     icon: 'yonghu',
   },
   {
-    name: '系统设置',
-    path: '/setting',
-    icon: 'shezhi',
+    name: '员工管理',
+    path: '/employee',
+    icon: 'fans',
     children: [
       {
-        name: '基本设置',
-        path: '/base',
+        name: '员工信息录入',
+        path: '/employee/add',
       },
       {
-        name: '评论设置',
-        path: '/comment',
+        name: '员工信息查看',
+        path: '/employee/list',
+      },
+    ],
+  },
+  {
+    name: '部门管理',
+    path: '/department',
+    icon: 'cascades',
+    children: [
+      {
+        name: '部门列表',
+        path: '/department',
+      },
+    ],
+  },
+  {
+    name: '薪金管理',
+    path: '/salary',
+    icon: 'rmb',
+    children: [
+      {
+        name: '工资列表',
+        path: '/salary',
+      },
+    ],
+  },
+  {
+    name: '招聘管理',
+    path: '/recruit',
+    icon: 'quote2',
+    children: [
+      {
+        name: '招聘信息管理',
+        path: '/recruit',
+      },
+      {
+        name: '面试列表',
+        path: '/recruit/list',
       },
     ],
   },
 ];
 
-export { headerMenuConfig, asideMenuConfig };
+export { headerMenuConfig, userMenuConfig, adminMenuConfig };

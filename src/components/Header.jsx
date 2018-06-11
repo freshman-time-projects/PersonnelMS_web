@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Balloon, Icon } from '@icedesign/base';
+import { Balloon, Icon, Button, Feedback } from '@icedesign/base';
 import IceImg from '@icedesign/img';
 import Layout from '@icedesign/layout';
 import Menu from '@icedesign/menu';
@@ -7,6 +7,7 @@ import FoundationSymbol from 'foundation-symbol';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { headerMenuConfig } from './../menuConfig';
+import axios from 'axios';
 import Logo from './Logo';
 
 export default class Header extends PureComponent {
@@ -47,13 +48,13 @@ export default class Header extends PureComponent {
                         {!isMobile ? nav.name : null}
                       </Link>
                     ) : (
-                      <a {...linkProps}>
-                        {nav.icon ? (
-                          <FoundationSymbol type={nav.icon} size="small" />
-                        ) : null}
-                        {!isMobile ? nav.name : null}
-                      </a>
-                    )}
+                        <a {...linkProps}>
+                          {nav.icon ? (
+                            <FoundationSymbol type={nav.icon} size="small" />
+                          ) : null}
+                          {!isMobile ? nav.name : null}
+                        </a>
+                      )}
                   </Menu.Item>
                 );
               })}
@@ -81,7 +82,7 @@ export default class Header extends PureComponent {
                 />
                 <div className="user-profile">
                   <span className="user-name" style={{ fontSize: '13px' }}>
-                    淘小宝
+                    113
                   </span>
                   <br />
                   <span
@@ -113,7 +114,25 @@ export default class Header extends PureComponent {
                 </Link>
               </li>
               <li className="user-profile-menu-item">
-                <Link to="/">
+                <Link  onClick={() => {
+                  axios
+                    .post('api/PersonnelMS/user_logout')
+                    .then((response) => {
+                      const data = response.data
+                      if (data.code === 0) {
+                        Feedback.toast.success(data.msg);
+                        location.href = "#login"
+                      } else if (data.code === 3) {
+                        Feedback.toast.error(data.msg);
+                        location.href = "#login"
+                      }
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    })
+                }}
+                to="/"
+                >
                   <FoundationSymbol type="compass" size="small" />退出
                 </Link>
               </li>

@@ -1,6 +1,7 @@
 /* eslint react/no-string-refs:0 */
 import React, { Component } from 'react';
 import { Input, Button, Checkbox, Grid, Feedback } from '@icedesign/base';
+import cookie from 'react-cookies';
 import {
   FormBinderWrapper as IceFormBinderWrapper,
   FormBinder as IceFormBinder,
@@ -15,7 +16,20 @@ const { Row, Col } = Grid;
 // 寻找背景图片可以从 https://unsplash.com/ 寻找
 const backgroundImage =
   'https://img.alicdn.com/tfs/TB1zsNhXTtYBeNjy1XdXXXXyVXa-2252-1500.png';
-
+document.onkeyup = (e) => {
+  let _key
+  if (e == null) {
+    _key = event.keyCode;
+  } else {
+    _key = e.which;
+  }
+  if (_key == 13) {
+    if (document.getElementById('btnLogin') != null)
+      document.getElementById('btnLogin').click()
+    else
+      Feedback.toast.success('你好')
+  }
+}
 export default class UserLogin extends Component {
   static displayName = 'UserLogin';
 
@@ -53,17 +67,20 @@ export default class UserLogin extends Component {
       console.log("*", this.props)
       axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
       axios
-        .post(`api/E_wardrobe/user_login?`, values)
+        .post(`api/PersonnelMS/user_login`, values)
         .then((response) => {
           const data = response.data;
           console.log("res", response.data);
           if (data.code === 0) {
             Feedback.toast.success(data.msg);
             // location.href="/#spec"
-            this.props.history.push("/spec");
-          } else if (data.code === 2) {
+            cookie.save('role', data.content.role);
+            this.props.history.push("/");
+          }
+          else if (data.code === 2) {
             Feedback.toast.error(data.msg);
-          } else {
+          }
+          else {
             Feedback.toast.error(data.msg);
           }
         })
@@ -84,7 +101,7 @@ export default class UserLogin extends Component {
         />
         <div style={styles.contentWrapper} className="content-wrapper">
           <h2 style={styles.slogan} className="slogan">
-            欢迎使用 <br /> ICE 内容管理系统
+            欢迎使用 <br /> E人事管理
           </h2>
           <div style={styles.formContainer}>
             <h4 style={styles.formTitle}>登录</h4>
@@ -136,6 +153,7 @@ export default class UserLogin extends Component {
 
                 <Row style={styles.formItem}>
                   <Button
+                    id="btnLogin"
                     type="primary"
                     onClick={this.handleSubmit}
                     style={styles.submitBtn}

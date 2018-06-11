@@ -27,14 +27,15 @@ export default class CustomBreadcrumb extends Component {
             );
           })}
         </Breadcrumb>
-      </div>  
+      </div>
     );
   }
 }
 const styles = {
   breadcrumb: {
-    padding:'15px 25px',
-    background:'#fff',
-    borderRadius:'5px 5px 0 0'
+    padding: '15px 25px',
+    background: '#fff',
+    borderRadius: '0 0 5px 5px',
+    marginBottom: '10px'
   },
 }

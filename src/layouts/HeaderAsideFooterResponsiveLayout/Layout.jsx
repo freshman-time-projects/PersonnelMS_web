@@ -11,7 +11,8 @@ import { enquire } from 'enquire-js';
 import Header from './../../components/Header';
 import Footer from './../../components/Footer';
 import Logo from './../../components/Logo';
-import { asideMenuConfig } from './../../menuConfig';
+import cookie from 'react-cookies';
+import { userMenuConfig, adminMenuConfig } from './../../menuConfig';
 import './scss/light.scss';
 import './scss/dark.scss';
 
@@ -27,12 +28,16 @@ export default class HeaderAsideFooterResponsiveLayout extends Component {
   constructor(props) {
     super(props);
 
-    const openKeys = this.getOpenKeys();
+    const roleName = cookie.load('role');
+    const menus = roleName === "1" ? userMenuConfig : adminMenuConfig;
+
+    const openKeys = this.getOpenKeys(menus);
     this.state = {
       collapse: false,
       openDrawer: false,
       isScreen: undefined,
       openKeys,
+      menus: menus
     };
     this.openKeysCache = openKeys;
   }
@@ -122,13 +127,13 @@ export default class HeaderAsideFooterResponsiveLayout extends Component {
   /**
    * 获取当前展开的菜单项
    */
-  getOpenKeys = () => {
+  getOpenKeys = (menus) => {
     const { match } = this.props;
     const matched = match.path;
     let openKeys = [];
 
-    Array.isArray(asideMenuConfig) &&
-      asideMenuConfig.forEach((item, index) => {
+    Array.isArray(menus) &&
+      menus.forEach((item, index) => {
         if (matched.startsWith(item.path)) {
           openKeys = [`${index}`];
         }
@@ -140,7 +145,8 @@ export default class HeaderAsideFooterResponsiveLayout extends Component {
   render() {
     const { location = {} } = this.props;
     const { pathname } = location;
-
+    const { menus } = this.state
+    console.log("**", cookie.load('role'))
     return (
       <Layout
         style={{ minHeight: '100vh' }}
@@ -191,9 +197,9 @@ export default class HeaderAsideFooterResponsiveLayout extends Component {
               onOpenChange={this.onOpenChange}
               onClick={this.onMenuClick}
             >
-              {Array.isArray(asideMenuConfig) &&
-                asideMenuConfig.length > 0 &&
-                asideMenuConfig.map((nav, index) => {
+              {Array.isArray(menus) &&
+                menus.length > 0 &&
+                menus.map((nav, index) => {
                   if (nav.children && nav.children.length > 0) {
                     return (
                       <SubMenu
