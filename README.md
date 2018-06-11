@@ -19,7 +19,22 @@ Software architecture description
 3. Commit your code
 4. Create Pull Request
 
-
+#### Work Logs
+##### SunAo 2018/6/10 1:00
+1. 项目初始化，配置脚手架。
+2. 搭建框架，编写工具类(util/fetch)配置依赖包。
+3. 配合阿里巴巴旗下的 ICE WORKS,引入并自定义物料库。
+4. 配置路由，并规划页面布局(第一版项目本身比较简单，并没有原型图)。
+5. 配置Nginx 反向代理node.js服务器(localhost:4444)到8992 端口(解决跨域问题)。
+6. 开始页面编写
+##### SunAo 2018/6/11 23:12
+1. 完成登录页面、注册页面、用户页面、员工页面、部门页面(未接通数据)
+2. 配置并使用React Cookies,用于动态菜单控制权限。
+3. 与后台进行初步数据对接
+##### SunAo 2018/6/12 1:20
+1. 完成登录页面、员工信息查看页面、部门页面、用户信息查看页面、注销登录 数据对接
+2. 完成招聘管理、薪金管理、首页（数据展示页）, 用户信息完善页面(用户端)
+3. 
 #### Gitee Feature
 
 1. You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md

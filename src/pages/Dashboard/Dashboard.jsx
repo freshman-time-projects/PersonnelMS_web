@@ -42,7 +42,7 @@ export default class Dashboard extends Component {
         <div style={styles.center}>
           <RealTimeStatistics dataList={this.state.data} />
           <Row style={{ paddingLeft: '20px', backgroundColor: '#fff', marginTop: '15px', borderBottom: '1px solid #E9E9E9' }}>
-            <h2><b>数据上传分布</b></h2>
+            <h2><b></b></h2>
           </Row>
           <Row style={{ backgroundColor: '#fff',}}>
             <Col span={16} style={{ padding: 20, borderRight: '1px solid #E9E9E9' }}>
