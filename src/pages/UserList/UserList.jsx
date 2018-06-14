@@ -3,6 +3,7 @@ import CustomBreadcrumb from '../../components/CustomBreadcrumb';
 import { Grid, Tab, Feedback, Icon } from '@icedesign/base';
 import ColumnForm from './components/ColumnForm';
 const { Row, Col } = Grid;
+import axios from 'axios'
 
 
 function handleChange(key) {
@@ -21,10 +22,40 @@ export default class UserAudit extends Component {
       value: {
 
       },
+      current:1,
     };
   }
+  getPageData = (current) => {
+    console.log('current: ', current);
+    const { userStatus } = this.state
+    axios
+      .get(`api/PersonnelMS/user_getAllpage?current=1`).then((res) => {
 
-  render() {
+        const data = res.data;
+        const { totalCount } = data.content
+        console.log("ttt", totalCount)
+        const dataList = data.content.list
+        this.setState({
+          dataList
+        })
+        if (data.code === 0) {
+          this.setState({
+            dataList: data.content.list,
+            current,
+            totalCount
+          });
+        } else if (data.code === 1) {
+          Feedback.toast.error("您未登录，请登录！")
+          this.props.history.push("/login")
+        }
+        // this.getPageData(sdji, jis)
+      });
+  }
+
+  componentWillMount() {
+    this.getPageData(1);
+  }
+  render() { 
 
     const editAdmin = [
       { text: '首页', link: '' },
@@ -40,7 +71,10 @@ export default class UserAudit extends Component {
           </Col>
         </Row>
       </div>
-      <CustomBreadcrumb dataSource={editAdmin} />
+      <CustomBreadcrumb 
+      dataSource={editAdmin}
+      current={this.state.current}
+      />
       <ColumnForm />
 
 

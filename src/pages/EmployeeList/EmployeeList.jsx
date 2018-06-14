@@ -6,9 +6,7 @@ import IceContainer from '@icedesign/container';
 import ColumnForm from './components/ColumnForm';
 import TabTable from './components/TabTable';
 import axios from 'axios'
-import history from 'react-router-dom'
 const { Row, Col } = Grid;
-
 export default class EmployeeList extends Component {
   static displayName = 'EmployeeList';
   constructor(props) {
@@ -28,7 +26,6 @@ export default class EmployeeList extends Component {
       dataList: this.state.dataList
     })
   }
-
   getPageData = (current) => {
     const specificationToken = this.props.match.params.spectoken
     console.log('specificationToken: ', specificationToken);
@@ -59,7 +56,6 @@ export default class EmployeeList extends Component {
 
     // 加载数据
     // const specificationToken = this.props.location.state.specificationToken
-
   }
   // getPageData(pageRequest, param) => {
   //   axios.get('url', {}).
@@ -76,7 +72,6 @@ export default class EmployeeList extends Component {
     ];
     return (
       <div className="device-list-page">
-
         <div style={styles.top}>
           <Row style={styles.rowTop}>
             <Col style={styles.title}>
@@ -103,12 +98,10 @@ export default class EmployeeList extends Component {
             {/* <SelectableTable data ={this.state.dataList}/> */}
           </IceContainer>
         </div>
-
       </div>
     );
   }
 }
-
 const styles = {
   rowTop: {
     marginLeft: '20px',

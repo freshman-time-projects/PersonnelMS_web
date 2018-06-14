@@ -23,98 +23,7 @@ export default class TabTable extends Component {
       totalCount: 0,
       dataSource: this.props.data
     };
-    this.columns = [
-      {
-        title: 'ID',
-        dataIndex: 'e_id',
-        key: 'e_id',
-      },
-      {
-        title: '姓名',
-        dataIndex: 'name',
-        key: 'name',
-      },
-      {
-        title: '年龄',
-        dataIndex: 'age',
-        key: 'age',
-      },
-      {
-        title: '性别',
-        dataIndex: 'sex',
-        key: 'idCard',
-      },
-      {
-        title: '婚姻状态',
-        dataIndex: 'marry',
-        key: 'marry',
-      },
-      {
-        title: '身份证',
-        dataIndex: 'idCard',
-        key: 'idCard',
-      },
-      {
-        title: '学历',
-        dataIndex: 'edu',
-        key: 'edu',
-      },
-      {
-        title: '毕业学校',
-        dataIndex: 'school',
-        key: 'school',
-      },
-      {
-        title: '手机',
-        dataIndex: 'mobile',
-        key: 'mobile',
-      },
-      {
-        title: '家庭住址',
-        dataIndex: 'address',
-        key: 'address',
-      },
-      {
-        title: '邮箱',
-        dataIndex: 'email',
-        key: 'email',
-      },
-      {
-        title: '部门',
-        dataIndex: 'hardwareId',
-        key: 'hardwareId',
-      },
-      {
-        title: '操作',
-        key: 'action',
-        render: (value, index, record) => {
-          return (
-            <span>
-              <EditDialog
-                index={index}
-                record={record}
-                dataList={this.props.data}
-                getFormValues={this.getFormValues}
-                onEditChange={this.props.onEditChange}
-              />
-              {/* <DeleteBalloon
-                handleRemove={() => this.handleRemove(value, index, record)}
-              /> */}
-              <Button shape="text" onClick={() => this.info(index)}>离职</Button>
-            </span>
-          );
-        },
-      },
-    ];
   }
-  getFormValues = (dataIndex, values) => {
-    const { dataSource } = this.state;
-    dataSource[dataIndex] = values;
-    this.setState({
-      dataSource,
-    });
-  };
-
   handleRemove = (value, index) => {
     const { dataSource } = this.state;
     dataSource.splice(index, 1);
@@ -151,6 +60,7 @@ export default class TabTable extends Component {
             dataSource={this.props.data}
             columns={this.columns}
             hasBorder={false}
+            current={this.props.current}
             call={this.props.call}
             spectoken={this.props.spectoken}
           />

@@ -3,10 +3,93 @@ import PropTypes from 'prop-types';
 import { Table } from '@icedesign/base';
 import { Tab, Button, Grid, Icon, Pagination, Loading } from '@icedesign/base';
 import { Link } from 'react-router-dom'
-
+import EditDialog from './../components/EditDialog';
+import DeleteBalloon from './../components/DeleteBalloon';
 const { Row, Col } = Grid;
 const ButtonGroup = Button.Group;
-
+const columns = [
+  {
+    title: 'ID',
+    dataIndex: 'e_id',
+    key: 'e_id',
+  },
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: '年龄',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: '性别',
+    dataIndex: 'sex',
+    key: 'idCard',
+  },
+  {
+    title: '婚姻状态',
+    dataIndex: 'marry',
+    key: 'marry',
+  },
+  {
+    title: '身份证',
+    dataIndex: 'idCard',
+    key: 'idCard',
+  },
+  {
+    title: '学历',
+    dataIndex: 'edu',
+    key: 'edu',
+  },
+  {
+    title: '毕业学校',
+    dataIndex: 'school',
+    key: 'school',
+  },
+  {
+    title: '手机',
+    dataIndex: 'mobile',
+    key: 'mobile',
+  },
+  {
+    title: '家庭住址',
+    dataIndex: 'address',
+    key: 'address',
+  },
+  {
+    title: '邮箱',
+    dataIndex: 'email',
+    key: 'email',
+  },
+  {
+    title: '部门',
+    dataIndex: 'hardwareId',
+    key: 'hardwareId',
+  },
+  {
+    title: '操作',
+    key: 'action',
+    render: (value, index, record) => {
+      return (
+        <div style={{ display: 'inline' }} >
+          <EditDialog
+            index={index}
+            record={record}
+            dataList={this.props.data}
+            getFormValues={this.getFormValues}
+            onEditChange={this.props.onEditChange}
+          />
+          <DeleteBalloon
+            handleRemove={() => this.handleRemove(value, index, record)}
+          />
+          {/* <Button type="primary" onClick={() => this.info(index)}>离职</Button> */}
+        </div>
+      );
+    },
+  },
+];
 export default class CustomTable extends Component {
   static displayName = 'CustomTable';
 
@@ -25,7 +108,8 @@ export default class CustomTable extends Component {
       selectedRowKeys: [],
       current: 1,
       totalCount: 0,
-     
+      dataSource: [],
+
     };
     this.handleChange = this.handleChange.bind(this);
 
@@ -44,9 +128,17 @@ export default class CustomTable extends Component {
     };
 
   }
+  getFormValues = (dataIndex, values) => {
+    const { dataSource } = this.state;
+    dataSource[dataIndex] = values;
+    this.setState({
+      dataSource,
+    });
+  };
 
   renderColumns = () => {
     const { columns } = this.props;
+    console.log("this.ppp", this.props)
     return columns.map((item) => {
       if (typeof item.render === 'function') {
         return (
@@ -55,7 +147,7 @@ export default class CustomTable extends Component {
             key={item.key}
             align={'center'}
             cell={item.render}
-            width={item.width || 80}
+            width={item.width || 120}
           />
         );
       }
@@ -67,6 +159,7 @@ export default class CustomTable extends Component {
           align={'center'}
           dataIndex={item.dataIndex}
           width={item.width || 100}
+          lock="true"
         />
       );
     });
@@ -89,6 +182,8 @@ export default class CustomTable extends Component {
   }
 
   render() {
+    const { dataSource } = this.props
+    console.log("sss123", this.props)
     return (
 
       <div>
@@ -121,17 +216,49 @@ export default class CustomTable extends Component {
         </Button>
           </a>
         </Row>
-        
-          <Table {...this.props}
 
+        <Table {...this.props}
+          dataSource={dataSource}
           isLoading={this.state.__loading}
+          align={'center'}
           rowSelection={{
             ...this.rowSelection,
             selectedRowKeys: this.state.selectedRowKeys,
           }}
         >
+          <Table.Column title="ID" align={'center'} dataIndex="e_id" width={40} />
+          <Table.Column title="姓名" align={'center'} dataIndex="name" width={60} />
+          <Table.Column title="性别" align={'center'} dataIndex="sex" width={50} />
+          <Table.Column title="年龄" align={'center'} dataIndex="age" width={50} />
+          <Table.Column title="部门" align={'center'} dataIndex="department" width={70} />
+          <Table.Column title="手机" align={'center'} dataIndex="mobile" width={100} />
+          <Table.Column title="邮箱" align={'center'} dataIndex="email" width={100} />
+          <Table.Column title="身份证" align={'center'} dataIndex="idCard" width={120} />
+          <Table.Column title="家庭住址" align={'center'} dataIndex="address" width={120} />
+          <Table.Column title="学历" align={'center'} dataIndex="edu" width={50} />
+          <Table.Column title="毕业学校" align={'center'} dataIndex="school" width={80} />
+          <Table.Column title="婚姻状况" align={'center'} dataIndex="marry" width={80} />
+          <Table.Column title="操作" align={'center'} lock="right" cell={
+            (value, index, record) => {
+              return (
+                <div style={{ display: 'inline' }} >
+                  <EditDialog
+                    current={this.props.current}
+                    index={index}
+                    record={record}
+                    dataList={this.props.data}
+                    getFormValues={this.getFormValues}
+                    onEditChange={this.props.call}
+                  />
+                  <DeleteBalloon
+                    handleRemove={() => this.handleRemove(value, index, record)}
+                  />
+                  {/* <Button type="primary" onClick={() => this.info(index)}>离职</Button> */}
+                </div>
+              );
+            }} width={150} />
 
-          {this.renderColumns()}
+          {/* {this.renderColumns()} */}
 
         </Table>
       </div>

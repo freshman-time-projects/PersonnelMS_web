@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dialog, Grid, Input, Radio, Button, Icon, Feedback } from '@icedesign/base';
+import { Dialog, Grid, Input, Radio, Button } from '@icedesign/base';
 import IceContainer from '@icedesign/container';
 import {
   FormBinderWrapper as IceFormBinderWrapper,
@@ -7,16 +7,14 @@ import {
   FormError as IceFormError,
 } from '@icedesign/form-binder';
 import { enquireScreen } from 'enquire-js';
-import axios from 'axios';
 
 const { Row, Col } = Grid;
 const { Group: RadioGroup } = Radio;
 
 const defaultvaluer = {
-  name: '',
-  manager: '',
-  description: '',
-  // dataList: [],
+  keywords: '',
+  type: 'post',
+  content: '',
 };
 
 export default class SimpleFormDialog extends Component {
@@ -56,31 +54,25 @@ export default class SimpleFormDialog extends Component {
       visible: false,
     });
   };
+
   onOk = () => {
-    this.refForm.validateAll((error, valuers) => {
-      console.log("valuers", valuers)
-      const valuer = Object.assign({}, valuers);
-      axios.post(`/api/PersonnelMS/department_add`, valuer).then((res) => {
-        console.log("aaaa", res)
-        if (res.data.code === 0) {
-          Feedback.toast.success("添加成功");
-          this.props.call();
-          // this.props.onAddChange();
-        } else {
-          Feedback.toast.error("添加失败，未知错误！");
-        }
-      });
+    this.refForm.validateAll((error) => {
       if (error) {
+        // show validate error
         return;
       }
+      // deal with valuer
+
       this.hideDialog();
     });
   };
+
   onFormChange = (valuer) => {
     this.setState({
       valuer,
     });
   };
+
   render() {
     const { isMobile } = this.state;
     const simpleFormDialog = {
@@ -90,14 +82,15 @@ export default class SimpleFormDialog extends Component {
     if (isMobile) {
       simpleFormDialog.width = '300px';
     }
+
     return (
-      <div style={{ marginBottom: '20px' }}>
+      <IceContainer>
         <Dialog
           className="simple-form-dialog"
           style={simpleFormDialog}
           autoFocus={false}
           footerAlign="center"
-          title="添加部门"
+          title="简单表单"
           {...this.props}
           onOk={this.onOk}
           onCancel={this.hideDialog}
@@ -114,63 +107,68 @@ export default class SimpleFormDialog extends Component {
           >
             <div style={styles.dialogContent}>
               <Row style={styles.formRow}>
-                <Col span={`${isMobile ? '6' : '4'}`}>
-                  <label style={styles.formLabel}>部门名称：</label>
+                <Col span={`${isMobile ? '6' : '3'}`}>
+                  <label style={styles.formLabel}>关键词</label>
                 </Col>
                 <Col span={`${isMobile ? '18' : '16'}`}>
                   <IceFormBinder
                     required
-                    message="当前字段必填"
+                    min={2}
+                    max={10}
+                    message="当前字段必填，且最少 2 个字最多 10 个字"
                   >
                     <Input
-                      name="name"
+                      name="keywords"
                       style={styles.input}
+                      placeholder="多关键词用英文 , 号分割"
                     />
                   </IceFormBinder>
-                  <IceFormError name="name" />
+                  <IceFormError name="keywords" />
                 </Col>
               </Row>
               <Row style={styles.formRow}>
-                <Col span={`${isMobile ? '6' : '4'}`}>
-                  <label style={styles.formLabel}>管理者：</label>
-                </Col>
-                <Col span={`${isMobile ? '18' : '16'}`}>
-                  <IceFormBinder
-                    required
-                    message="当前字段必填"
-                  >
-                    <Input
-                      name="manager"
-                      style={styles.input}
+                <Col>
+                  <IceFormBinder>
+                    <RadioGroup
+                      name="type"
+                      dataSource={[
+                        {
+                          valuer: 'post',
+                          label: '文章',
+                        },
+                        {
+                          valuer: 'video',
+                          label: '视频',
+                        },
+                        {
+                          valuer: 'image',
+                          label: '图片',
+                        },
+                      ]}
                     />
                   </IceFormBinder>
-                  <IceFormError name="manager" />
                 </Col>
               </Row>
               <Row style={styles.formRow}>
-                <Col span={`${isMobile ? '6' : '4'}`}>
-                  <label style={styles.formLabel}>部门简介：</label>
-                </Col>
-                <Col span={`${isMobile ? '18' : '16'}`}>
-                  <IceFormBinder
-                    required
-                    message="当前字段必填"
-                  >
+                <Col>
+                  <IceFormBinder>
                     <Input
-                      name="description"
+                      name="content"
                       style={styles.input}
+                      multiple
+                      placeholder="请输入详细内容"
+                      rows={4}
                     />
                   </IceFormBinder>
-                  <IceFormError name="description" />
                 </Col>
               </Row>
             </div>
           </IceFormBinderWrapper>
         </Dialog>
-        <Button type="primary" size="large" onClick={this.showDialog}>
-          <Icon type="add" />新建
+        <Button type="primary" onClick={this.showDialog}>
+          显示 Dialog
         </Button>
-      </div>
+      </IceContainer>
     );
   }
 }

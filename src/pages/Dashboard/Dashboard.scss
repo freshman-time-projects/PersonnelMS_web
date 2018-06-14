@@ -11,7 +11,14 @@
       transition: 0.8s;
       color: rgb(255, 215, 0)
     }
+    .delete {
+      zoom: 1.1;
+      transform: scale(1.2);
+      transition: 0.8s;
+      color: rgb(235, 24, 24)
+    }
   }
+ 
   .icon {
     color: #8B8989
   }
@@ -19,4 +26,10 @@
   .datacard {
     background-color: #fff
   }
-  
+  .issue :hover {
+        transition: 0.5s;
+        color: black;
+        zoom: 1;
+        transform: scale(1.2);
+      }
+      

@@ -14,6 +14,11 @@ const { ImageUpload } = Upload;
 const { Row, Col } = Grid;
 const FormItem = Form.Item;
 const fileList = [];
+
+const SelectList =[
+  { label: '人事部', value: '人事部' },
+  { label: '技术部', value: '技术部' },
+]
 export default class UserForm extends Component {
 
   field = new Field(this, {
@@ -29,10 +34,8 @@ export default class UserForm extends Component {
     super(props);
     this.state = {
       value: {
-        name: '',
-        image: 'string',
-        description: '',
-        specificationtoken: 'string',
+        name:'',
+        department:'1'
       },
     };
   }
@@ -50,14 +53,13 @@ export default class UserForm extends Component {
   validateAllFormField = () => {
     this.refs.form.validateAll((errors, values) => {
       console.log("values:", values);
-      const specificationToken = this.props.spectoken
       // TODO 只能传一个
       axios
-        .post(`/api/devices?current=${specificationToken}&size=${sdsd}`, values)
+        .post(`api/PersonnelMS/employee_add`, values)
         .then((response) => {
           if (response.data.code === 0) {
-            Feedback.toast.success("添加成功！");
-            this.props.history.push(`/device/${specificationToken}`)
+            Feedback.toast.success(response.data.msg);
+            this.props.history.push(`/employee/list`)
             // hashHistory.push({
             //   pathname: 'device',
             //   query: {
@@ -139,43 +141,7 @@ export default class UserForm extends Component {
                   </Col>
                 </Row>
               </div>
-              <Row style={styles.formItem} justify="center">
-                <Col style={styles.formLabel} span="2">
-                  员工头像 ：
-                </Col>
-                <Col span="10" style={{ textAlign: 'left' }}>
-                  <IceFormBinder name="image">
-                    <DragUpload
-                      action="/api/files/uploadImg" // 该接口仅作测试使用，业务请勿使用
-                      accept="image/png, image/jpg, image/jpeg, image/gif, image/bmp"
-                      name="files2"
-                      preview
-                      limit={1}
-                    // onSuccess={this.onSuccess}
-                    />
-                    {/* <ImageUpload
-                      listType="picture-card"
-                      action="/api/files/uploadImg" // 该接口仅作测试使用，业务请勿使用
-                      accept="image/png, image/jpg, image/jpeg, image/gif, image/bmp"
-                      name="files2"
-                      limit={1}
-                      {...init("upload", {
-                        valueName: "fileList",
-                        initValue: fileList,
-                        getValueFromEvent: this.normFile,
-                        rules: [{ required: true, message: "列表不能为空" }]
-                      })}
-                    /> */}
-                    {/* <div>
-                      <div style={{height:'200px',width: '200px'}}>
-                        <img id="preview"  style={{height:'100% ',width: '100%'}}/>	
-                      </div>
-                      <input type="file" name="file" onChange={this.imgPreview} />
-                    </div> */}
-                  </IceFormBinder>
-                  <IceFormError name="image" />
-                </Col>
-              </Row>
+           
 
               <Row style={styles.formItem} justify="center">
                 <Col style={styles.formLabel} span="2">
@@ -183,18 +149,15 @@ export default class UserForm extends Component {
                 </Col>
                 <Col span="10">
                   <IceFormBinder
-                    name="description"
+                    name="department"
                   >
-                    <Combobox
-                      // onInputUpdate={this.onInputUpdate.bind(this)}
-                      filterLocal={false}
-                      value={this.state.value}
-                      fillProps="label"
-                      multiple
-                      placeholder="请输入淘宝商品"
-                      // onChange={this.onChange.bind(this)}
-                      // dataSource={this.state.dataSource}
-                    />
+                    <Select
+                            className="next-form-text-align"
+                            style={{ width: '100%' }}
+                            required
+                            message="请选择您的学历"
+                            dataSource={SelectList}
+                          />
                   </IceFormBinder>
                 </Col>
               </Row>

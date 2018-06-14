@@ -97,29 +97,20 @@ export default class SelectableTable extends Component {
 
   getPageData = (current) => {
     console.log('current: ', current);
-    const { userStatus } = this.state
-    axios
-      .get(`/api/users/page?current=${current}&userStatus=%E5%B7%B2%E9%80%9A%E8%BF%87`).then((res) => {
-
-        const data = res.data;
-        const { totalCount } = data.content
-        console.log("ttt", totalCount)
-        const dataList = data.content.list
-        this.setState({
-          dataList
+   axios
+        .get(`api/PersonnelMS/user_getAll_page?current=${current}`)
+        .then((response) => {
+          const data = response.data;
+          console.log("ressss", response.data.content.length);
+          if(response.data.code === 0){
+            this.setState({
+              dataList: response.data.content,
+              current,
+            },()=>{
+              console.log("dadadada",this.state.dataList)
+            });
+          } 
         })
-        if (data.code === 0) {
-          this.setState({
-            dataList: data.content.list,
-            current,
-            totalCount
-          });
-        } else if (data.code === 1) {
-          Feedback.toast.error("您未登录，请登录！")
-          this.props.history.push("/login")
-        }
-        // this.getPageData(sdji, jis)
-      });
   }
 
   componentWillMount() {
@@ -162,7 +153,7 @@ export default class SelectableTable extends Component {
   }
 
   render() {
-    const { dataList } = this.props
+    const { dataList } = this.state
     return (
       <div className="selectable-table" style={styles.selectableTable}>
         <IceContainer style={styles.IceContainer}>

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Input, Button, Checkbox, Grid, Feedback } from '@icedesign/base';
 import cookie from 'react-cookies';
+import { Link } from 'react-router-dom';
 import {
   FormBinderWrapper as IceFormBinderWrapper,
   FormBinder as IceFormBinder,
@@ -75,6 +76,9 @@ export default class UserLogin extends Component {
             Feedback.toast.success(data.msg);
             // location.href="/#spec"
             cookie.save('role', data.content.role);
+            if(data.content.role === "1")
+            this.props.history.push("/index");
+            else if(data.content.role === "3")
             this.props.history.push("/");
           }
           else if (data.code === 2) {
@@ -163,9 +167,9 @@ export default class UserLogin extends Component {
                 </Row>
 
                 <Row className="tips" style={styles.tips}>
-                  <a href="/" style={styles.link}>
+                  <Link to="/register" style={styles.link}>
                     立即注册
-                  </a>
+                  </Link>
                   <span style={styles.line}>|</span>
                   <a href="/" style={styles.link}>
                     忘记密码

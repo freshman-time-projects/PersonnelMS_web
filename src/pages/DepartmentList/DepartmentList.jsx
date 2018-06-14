@@ -19,23 +19,26 @@ export default class DepartmentList extends Component {
       departmentCount: 0,
     };
   }
+  getDataAll = () => {
+  // 加载数据
+  axios.get(`api/PersonnelMS/department_getSum`).then((res) => {
+    const data = res.data;
+    console.log("content", res)
+    console.log("code", res.data)
+    if (data.code === 0) {
+      this.setState({
+        dataList: data.content,
+        departmentCount: res.data.content.length
+      })
+    } else if (data.code === 2) {
+      Feedback.toast.error("您未登录，请登录！")
+      this.props.history.push("/login")
+    }
+    // this.getPageData(sdji, jis)
+  });
+  }
   componentWillMount() {
-    // 加载数据
-    axios.get(`api/PersonnelMS/department_getAll`).then((res) => {
-      const data = res.data;
-      console.log("content", res)
-      console.log("code", res.data)
-      if (data.code === 0) {
-        this.setState({
-          dataList: data.content,
-          departmentCount: res.data.content.length
-        })
-      } else if (data.code === 2) {
-        Feedback.toast.error("您未登录，请登录！")
-        this.props.history.push("/login")
-      }
-      // this.getPageData(sdji, jis)
-    });
+    this.getDataAll();
   }
   render() {
     const { dataList, departmentCount } = this.state
@@ -69,7 +72,9 @@ export default class DepartmentList extends Component {
             </Col>
           </Row>
         </Card>
-        <PriceCard dataList={dataList} />
+        <PriceCard 
+        getDataAll={this.getDataAll}
+        dataList={dataList} />
       </Layout>
     );
   }

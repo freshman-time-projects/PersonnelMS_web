@@ -17,6 +17,7 @@ import EmployeeEdit from './pages/EmployeeEdit';
 import SalaryList from './pages/SalaryList';
 import AuditList from './pages/AuditList';
 import Dashboard from './pages/Dashboard';
+import Register from './pages/RegisterPage'
 
 const routerConfig = [
   {
@@ -48,6 +49,11 @@ const routerConfig = [
     path: '/login',
     layout: BlankLayout,
     component: LoginPage,
+  },
+  {
+    path: '/register',
+    layout: BlankLayout,
+    component: Register,
   },
   {
     path: '/',

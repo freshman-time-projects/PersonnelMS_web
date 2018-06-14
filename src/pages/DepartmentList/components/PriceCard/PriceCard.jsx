@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Grid, Card, Icon } from '@icedesign/base';
+import { Grid, Card, Icon, Feedback, Dialog, Button } from '@icedesign/base';
 import { divide } from 'gl-matrix/src/gl-matrix/vec4';
 import { Item } from '@icedesign/menu';
 import axios from 'axios';
 import SimpleFormDialog from '../SimpleFormDialog';
+
 import { Link } from 'react-router-dom';
 import { Base } from 'bizcharts';
 const { Row, Col } = Grid;
 const BaseUrl = "http://192.168.167.179:8081/iot-admin"
-import '../../DepartmentList.scss'
 export default class PriceCard extends Component {
 
   static displayName = 'PriceCard';
@@ -19,7 +19,40 @@ export default class PriceCard extends Component {
     super(props);
     this.state = {
       dataSourse: [],
+      visible: false,
+      id: 0
     }
+  }
+  onDelete = (d_id) => {
+    console.log("id", d_id)
+    const id = `{"d_id":${d_id}}`
+
+    // if (key === 1) {
+      axios
+        .post("api/PersonnelMS/department_romove", JSON.parse(id))
+        .then((res) => {
+          console.log("OOO",res)
+          const { data } = res
+          if (data.code === 0) {
+            Feedback.toast.success(data.msg)
+            this.props.getDataAll()
+          }
+          else if (data.code === 3)
+            Feedback.toast.error(data.msg)
+          else
+            Feedback.toast.error("异常！")
+
+        })
+    // } else
+    //   alert(key)
+  }
+
+  dateleData = (d_id) => {
+    this.setState({
+      visible: 'true',
+      id: d_id
+    })
+
   }
 
   componentWillMount() {
@@ -35,6 +68,7 @@ export default class PriceCard extends Component {
     location.href = `api/E_wardrobe/user_login?`
   }
   render() {
+    console.log("visible", this.state.visible)
     console.log("----**", this.props.dataList);
     const dataSourse = this.props.dataList;
     return (
@@ -50,17 +84,16 @@ export default class PriceCard extends Component {
                         <Col fixedSpan="4"><div style={{ height: "100%", paddingTop: '10px' }}><Icon size="xl" type="loading" /></div></Col>
                         <Col>
                           <div className="onHover" style={styles.centerRight}>
-                            <h3 style={styles.title}><Link to={`/spec/index/${item.token}`}>{item.name}</Link></h3>
+                            <h3 style={styles.title}><Link to={`/spec/index/${item.token}`}>{item.name}</Link><Icon className="delete" style={{ float: 'right', paddingRight: '8px' }} onClick={() => { this.onDelete(`${item.d_id}`) }} type="ashbin" /></h3>
                             <p style={styles.description}>部门ID：{item.d_id}</p>
                             <p style={styles.description}>管理总管：{item.manager}</p>
                             <p style={styles.description}>部门描述：{item.description}</p>
                           </div>
-
                         </Col>
                       </Row>
                     </div>
                     <div className="issue" style={styles.buyBtn}>
-                      <Col l='8'><Link to={`/employee/${item.token}`}>员工数量：<b>{item.employeeCount}</b></Link></Col>
+                      <Col l='8'><Link to={`/employee/${item.token}`}>员工数量：<b>{item.sumpeople}</b></Link></Col>
                       <Col l='16'><Link to={`/department/${item.token}`}>创建时间：<b>{item.dataItemCount}</b></Link></Col>
                     </div>
                   </div>
@@ -71,7 +104,9 @@ export default class PriceCard extends Component {
               <div style={styles.addItem}>
                 <div style={styles.head}>
                   <div style={styles.addBtn}>
-                  <SimpleFormDialog/>
+                    <SimpleFormDialog
+                      call={this.props.getDataAll}
+                    />
                   </div>
                 </div>
               </div>
@@ -164,7 +199,7 @@ const styles = {
     fontSize: '15px',
     borderRadius: '0 0 6px 6px',
   },
- addBtn: {
+  addBtn: {
     display: 'flex',
     justifyContent: 'center',
     textAlign: 'center',

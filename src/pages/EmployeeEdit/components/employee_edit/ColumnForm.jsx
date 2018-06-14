@@ -20,11 +20,18 @@ export default class ColumnForm extends Component {
     super(props);
     this.state = {
       value: {
-        contractId: '',
-        operator: '',
-        settleAccount: '',
-        period: '',
-        currency: 'usd',
+        name:'',
+        e_id:'',
+        email:'',
+        marry:'',
+        sex:'',
+        age:'',
+        idCard:'',
+        edu:'',
+        school:'',
+        mobile:'',
+        address:'',
+        department:''
       },
     };
   }
@@ -63,7 +70,6 @@ export default class ColumnForm extends Component {
             Feedback.toast.error("您未登录，请登录！")
             this.props.history.push("/login")
           }
-
           // this.getPageData(sdji, jis)
         });
       if (error) {

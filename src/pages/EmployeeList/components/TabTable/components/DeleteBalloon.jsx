@@ -34,7 +34,7 @@ export default class DeleteBalloon extends Component {
   render() {
     const visibleTrigger = (
       <Button size="small" type="secondary" shape="warning">
-        删除
+        离职
       </Button>
     );
 
