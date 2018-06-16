@@ -37,11 +37,11 @@ export default class EditDialog extends Component {
       this.setState({
         visible: false,
       });
+      const value = Object.assign({}, values);
       axios
-        .put(`/api/PersonnelMS/employee_update`, values)
+        .put(`/api/PersonnelMS/employee_update`, value)
         .then((res) => {
           if (res.data.code === 0) {
-            const value = Object.assign({}, values);
             console.log("&&&&", value)
             console.log("**")
             Feedback.toast.success("修改成功");

@@ -1,95 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from '@icedesign/base';
-import { Tab, Button, Grid, Icon, Pagination, Loading } from '@icedesign/base';
+import { Tab, Button, Grid, Icon, Pagination, Loading,Feedback } from '@icedesign/base';
 import { Link } from 'react-router-dom'
 import EditDialog from './../components/EditDialog';
 import DeleteBalloon from './../components/DeleteBalloon';
 const { Row, Col } = Grid;
 const ButtonGroup = Button.Group;
-const columns = [
-  {
-    title: 'ID',
-    dataIndex: 'e_id',
-    key: 'e_id',
-  },
-  {
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: '性别',
-    dataIndex: 'sex',
-    key: 'idCard',
-  },
-  {
-    title: '婚姻状态',
-    dataIndex: 'marry',
-    key: 'marry',
-  },
-  {
-    title: '身份证',
-    dataIndex: 'idCard',
-    key: 'idCard',
-  },
-  {
-    title: '学历',
-    dataIndex: 'edu',
-    key: 'edu',
-  },
-  {
-    title: '毕业学校',
-    dataIndex: 'school',
-    key: 'school',
-  },
-  {
-    title: '手机',
-    dataIndex: 'mobile',
-    key: 'mobile',
-  },
-  {
-    title: '家庭住址',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: '邮箱',
-    dataIndex: 'email',
-    key: 'email',
-  },
-  {
-    title: '部门',
-    dataIndex: 'hardwareId',
-    key: 'hardwareId',
-  },
-  {
-    title: '操作',
-    key: 'action',
-    render: (value, index, record) => {
-      return (
-        <div style={{ display: 'inline' }} >
-          <EditDialog
-            index={index}
-            record={record}
-            dataList={this.props.data}
-            getFormValues={this.getFormValues}
-            onEditChange={this.props.onEditChange}
-          />
-          <DeleteBalloon
-            handleRemove={() => this.handleRemove(value, index, record)}
-          />
-          {/* <Button type="primary" onClick={() => this.info(index)}>离职</Button> */}
-        </div>
-      );
-    },
-  },
-];
+import axios from 'axios'
 export default class CustomTable extends Component {
   static displayName = 'CustomTable';
 
@@ -131,6 +49,27 @@ export default class CustomTable extends Component {
   getFormValues = (dataIndex, values) => {
     const { dataSource } = this.state;
     dataSource[dataIndex] = values;
+    this.setState({
+      dataSource,
+    });
+  };
+  handleRemove = (value, index) => {
+    const { dataSource } = this.props;
+    const id = dataSource[index].e_id
+    const e_id = `{"e_id":"${id}"}`
+    console.log("indxxx",index)
+    console.log("idddd",id)
+    axios.post(`/api/PersonnelMS/employee_romove`,JSON.parse(e_id)).then((res) => {
+      console.log('res: ', res);
+      if (res.data.code === 0) {
+        Feedback.toast.success("删除成功");
+      } else {
+        Feedback.toast.error("删除失败，未知错误！");
+
+      }
+      // this.getPageData(sdji, jis)
+    });
+    dataSource.splice(index, 1);
     this.setState({
       dataSource,
     });
@@ -251,6 +190,8 @@ export default class CustomTable extends Component {
                     onEditChange={this.props.call}
                   />
                   <DeleteBalloon
+                    index={index}
+                    // id={this.columns.id}
                     handleRemove={() => this.handleRemove(value, index, record)}
                   />
                   {/* <Button type="primary" onClick={() => this.info(index)}>离职</Button> */}
