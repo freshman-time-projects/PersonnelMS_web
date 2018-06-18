@@ -14,9 +14,12 @@ import { enquireScreen } from 'enquire-js';
 
 const { Group: RadioGroup } = Radio;
 const defaultvaluer = {
-  keywords: '',
-  type: 'post',
-  content: '',
+  name: '',
+  sex: '',
+  school: '',
+  filepath: '',
+  email: '',
+  state: 0
 };
 
 const { Row, Col } = Grid;
@@ -34,6 +37,7 @@ export default class Register extends Component {
       valuer: defaultvaluer,
       isMobile: false,
       value: {
+        account: '',
         username: '',
         email: '',
         passwd: '',
@@ -56,6 +60,9 @@ export default class Register extends Component {
   };
 
   showDialog = () => {
+    console.log("UUUUU", this.state.value);
+    this.state.valuer.email = this.state.value.email
+    this.state.valuer.name = this.state.value.account
     this.setState({
       visible: true,
     });
@@ -68,11 +75,22 @@ export default class Register extends Component {
   };
 
   onOk = () => {
-    this.refForm.validateAll((error) => {
+    this.refForm.validateAll((error, values) => {
       if (error) {
         // show validate error
         return;
       }
+      console.log("values+++", values)
+      axios
+        .post("/api/PersonnelMS/recruit_addRecruit", values)
+        .then((res) => {
+          console.log("res", res)
+          if (res.data.code === 0) {
+            Feedback.toast.success(res.data.msg)
+          }
+        })
+
+
       // deal with valuer
 
       this.hideDialog();
@@ -183,7 +201,7 @@ export default class Register extends Component {
             ref="form"
           >
             <div style={styles.formItems}>
-              <Row style={styles.formItem}>
+            <Row style={styles.formItem}>
                 <Col style={styles.formItemCol}>
                   <IceIcon
                     type="yonghu"
@@ -200,6 +218,25 @@ export default class Register extends Component {
                 </Col>
                 <Col>
                   <IceFormError name="username" />
+                </Col>
+              </Row>
+              <Row style={styles.formItem}>
+                <Col style={styles.formItemCol}>
+                  <IceIcon
+                    type="person"
+                    size="small"
+                    style={styles.inputIcon}
+                  />
+                  <IceFormBinder
+                    name="account"
+                    required
+                    message="真实姓名"
+                  >
+                    <Input size="large" placeholder="真实姓名" />
+                  </IceFormBinder>
+                </Col>
+                <Col>
+                  <IceFormError name="account" />
                 </Col>
               </Row>
 
@@ -312,9 +349,9 @@ export default class Register extends Component {
                   使用已有账户登录
                 </Link>
               </Row>
-              <Button onClick={this.showDialog}>
-                注 册
-                </Button>
+              {/* <Button onClick={this.showDialog}>
+                测试
+                </Button> */}
             </div>
 
           </IceFormBinderWrapper>
@@ -348,6 +385,7 @@ export default class Register extends Component {
                       required
                       min={2}
                       max={10}
+                      readOnly="true"
                       message="姓名必填，且最少 2 个字最多 6 个字"
                     >
                       <Input
@@ -399,7 +437,7 @@ export default class Register extends Component {
                       message="请选择您的学历"
                     >
                       <Select
-                        name="edu"
+                        name="school"
                         className="next-form-text-align"
                         style={{ width: '100%' }}
                         dataSource={[
@@ -414,6 +452,26 @@ export default class Register extends Component {
                 </Row>
                 <Row style={styles.formRow}>
                   <Col span={`${isMobile ? '6' : '3'}`}>
+                    <label style={styles.formLabel}>账号邮箱</label>
+                  </Col>
+                  <Col span={`${isMobile ? '18' : '16'}`}>
+                    <IceFormBinder
+                      required
+                      message="必填！！!"
+                    >
+                      <Input
+                        readOnly="true"
+                        name="email"
+                        style={styles.input}
+                        placeholder="请输入您注册时的邮箱"
+                      />
+                    </IceFormBinder>
+                    <IceFormError name="email" />
+                  </Col>
+                </Row>
+
+                <Row style={styles.formRow}>
+                  <Col span={`${isMobile ? '6' : '3'}`}>
                     <label style={styles.formLabel}>简历</label>
                   </Col>
                   <Col>
@@ -422,7 +480,7 @@ export default class Register extends Component {
                       message="请认真填写！！"
                     >
                       <Input
-                        name="content"
+                        name="filepath"
                         style={styles.input}
                         multiple
                         placeholder="请输入详细内容"

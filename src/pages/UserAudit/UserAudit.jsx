@@ -27,8 +27,8 @@ export default class UserAudit extends Component {
 
   render() {
     const tabs = [
-      { tab: "待审核", key: "home", content: <ColumnForm userStatus="%E5%BE%85%E5%AE%A1%E6%A0%B8" history={this.props.history} /> },
-      { tab: "已拒绝", key: "doc", content: <ColumnForm userStatus="%E5%B7%B2%E6%8B%92%E7%BB%9D" history={this.props.history} /> },
+      { tab: "待审核", key: "home", content: <ColumnForm userStatus={0} history={this.props.history} /> },
+      { tab: "已拒绝", key: "doc", content: <ColumnForm userStatus={-1} history={this.props.history} /> },
 
     ];
 

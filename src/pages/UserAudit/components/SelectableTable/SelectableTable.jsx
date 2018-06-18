@@ -73,21 +73,16 @@ export default class SelectableTable extends Component {
         console.log('ids', ids);
         this.setState({
           selectedRowKeys: ids,
-        },() => {
-          console.log("vv",this.state.selectedRowKeys)
         });
       },
       // 全选表格时触发的回调
       onSelectAll: (selected, records) => {
         console.log('onSelectAll', selected, records);
       },
-      // 支持针对特殊行进行定制
-      getProps: (record) => {
-        return {
-
-        };
-      },
     };
+
+
+    
 
     this.state = {
 
@@ -108,8 +103,8 @@ export default class SelectableTable extends Component {
   };
 
   deleteItem = (record) => {
-    const { id } = record;
-    console.log('delete item', id);
+    const { r_id } = record;
+    console.log('delete item', r_id);
   };
   ///
   renderStatus = (value) => {
@@ -139,17 +134,20 @@ export default class SelectableTable extends Component {
         <IceContainer style={styles.IceContainer}>
           <div>
             <Button size="medium" type="primary" style={styles.batchBtn}
-             disabled={!this.state.selectedRowKeys.length}
+              disabled={!this.state.selectedRowKeys.length}
               onClick={
                 () => {
                   console.log(this.state.selectedRowKeys)
                   axios
-                    .put(`/api/users?ids=${this.state.selectedRowKeys}&userStatus=%E5%B7%B2%E9%80%9A%E8%BF%87`)
+                    .put(`/api/PersonnelMS/recruit_update?ids=${this.state.selectedRowKeys}&userStatus=1`)
                     .then((res) => {
-                      console.log("rrr",res)
+                      console.log("rrr", res)
                       if (res.data.code === 0) {
                         this.props.pageCall(this.state.current)
                         Feedback.toast.success("操作成功");
+                        this.setState({
+                          selectedRowKeys:[]
+                        })
                       } else {
                         Feedback.toast.error("操作失败，未知错误！");
                       }
@@ -164,11 +162,14 @@ export default class SelectableTable extends Component {
                 () => {
                   console.log(this.state.selectedRowKeys)
                   axios
-                    .put(`/api/users?ids=${this.state.selectedRowKeys}&userStatus=%E5%B7%B2%E6%8B%92%E7%BB%9D`)
+                    .put(`/api/PersonnelMS/recruit_update?ids=${this.state.selectedRowKeys}&userStatus=-1`)
                     .then((res) => {
                       if (res.data.code === 0) {
                         this.props.pageCall(this.state.current)
                         Feedback.toast.success("操作成功");
+                        this.setState({
+                          selectedRowKeys:[]
+                        })
                       } else {
                         Feedback.toast.error("操作失败，未知错误！");
                       }
@@ -205,18 +206,20 @@ export default class SelectableTable extends Component {
               ...this.rowSelection,
               selectedRowKeys: this.state.selectedRowKeys,
             }}
+            primaryKey="r_id"
           >
-            <Table.Column title="编码" dataIndex="id" width={200} />
-            <Table.Column title="姓名" dataIndex="username" width={80} />
-            <Table.Column title="角色" dataIndex="role" width={80} />
-            <Table.Column title="邮箱" dataIndex="email" width={150} />
-            <Table.Column title="电话" dataIndex="phone" width={120} />
+            <Table.Column title="编码" dataIndex="r_id" width={50} />
+            <Table.Column title="姓名" dataIndex="name" width={80} />
+            <Table.Column title="性别" dataIndex="sex" width={80} />
+            <Table.Column title="学历" dataIndex="school" width={150} />
+            <Table.Column title="简历" dataIndex="filepath" width={120} />
+            <Table.Column title="邮箱" dataIndex="email" width={120} />
             <Table.Column title="时间" dataIndex="createdDate" width={130} />
-            <Table.Column
+            {/* <Table.Column
               title="状态"
               dataIndex="userStatus"
               width={60}
-            />
+            /> */}
           </Table>
           <div style={styles.pagination}>
             <Pagination

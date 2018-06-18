@@ -124,12 +124,10 @@ export default class EditDialog extends Component {
                 className="next-form-text-align"
                 style={{ width: '100%' }}
                 required
-                message="请选择您的学历"
+                message="请选择您的婚姻状态"
                 dataSource={[
-                  { label: '专科生', value: '专科生' },
-                  { label: '本科生', value: '本科生' },
-                  { label: '研究生', value: '研究生' },
-                  { label: '博士生', value: '博士生' },
+                  { label: '已婚', value: '已婚' },
+                  { label: '未婚', value: '未婚' },
                 ]}
               />
             </FormItem>

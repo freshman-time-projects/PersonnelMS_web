@@ -34,7 +34,7 @@ export default class DeviceList extends Component {
     console.log('specificationToken: ', specificationToken);
     console.log('current: ', current);
     axios
-      .get(`api/PersonnelMS/employeeAnddepartment_getSize_page?current=${current}`).then((res) => {
+      .get(`api/PersonnelMS/recruit_getAllRecruit?userStatus=1`).then((res) => {
         const data = res.data;
         // const { totalCount } = data.content
         console.log("datass", res)
@@ -55,6 +55,7 @@ export default class DeviceList extends Component {
       });
   }
   componentDidMount() {
+    console.log("*(*(*(")
     this.getPageData(1)
 
     // 加载数据

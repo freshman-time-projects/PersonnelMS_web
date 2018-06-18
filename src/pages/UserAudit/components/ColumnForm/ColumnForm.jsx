@@ -22,14 +22,10 @@ export default class ColumnForm extends Component {
     super(props);
     this.state = {
       value: {
-        username: '',
-        id: '',
-        phone: '',
-        email: '',
-        userRemark: '',
-        startValue: null,
-        endValue: null,
-        endOpen: false
+        name: '',
+        school: '',
+        sex: '',
+        filepath: '',
       },
       userStatus: '',
       dataList: [],
@@ -39,21 +35,17 @@ export default class ColumnForm extends Component {
   //日期 
   getPageData = (current) => {
     console.log('current: ', current);
-    const { userStatus } = this.state
+    
     axios
-      .get(`/api/users/page?current=${current}&userStatus=${this.props.userStatus}`).then((res) => {
+      .get(`/api/PersonnelMS/recruit_getAllRecruit?userStatus=${this.props.userStatus}`).then((res) => {
 
         const data = res.data;
-        const { totalCount } = data.content
-        const dataList = data.content.list
-        this.setState({
-          dataList
-        })
+        // const { totalCount } = data.content
         if (data.code === 0) {
           this.setState({
-            dataList: data.content.list,
+            dataList: data.content,
             current,
-            totalCount
+            // totalCount
           });
         } else if (data.code === 1) {
           Feedback.toast.error("您未登录，请登录！")
@@ -120,14 +112,10 @@ export default class ColumnForm extends Component {
   reset = () => {
     this.setState({
       value: {
-        username: '',
-        id: '',
-        phone: '',
-        email: '',
-        userRemark: '',
-        startValue: null,
-        endValue: null,
-        endOpen: false
+        name: '',
+        sex: '',
+        school: '',
+        filepath: '',
       },
     });
   };
@@ -144,6 +132,7 @@ export default class ColumnForm extends Component {
 
   render() {
     const { startValue, endValue, endOpen, dataList } = this.state;
+    console.log("dataList", dataList)
     return (
       <div className="column-form">
         <IceContainer title="用户信息" style={styles.container}>
@@ -269,13 +258,13 @@ export default class ColumnForm extends Component {
 
                     <Col s="12" l="10">
                       <IceFormBinder
-                        name="userName"
+                        name="name"
                         required
                         message="姓名填写!"
                       >
                         <Input style={{ width: '100%' }} />
                       </IceFormBinder>
-                      <IceFormError name="userName" />
+                      <IceFormError name="name" />
                     </Col>
                     <Col xxs="8" s="6" l="4" style={styles.formLabel}>
                       用户编号:
@@ -308,11 +297,11 @@ export default class ColumnForm extends Component {
                   </Row>
 
                   <Row style={styles.formItem}>
-                      <Col xxs="8" s="6" l="4" style={styles.formLabel}>
+                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
                       用户邮箱
                             </Col>
 
-                      <Col s="12" l="10">
+                    <Col s="12" l="10">
                       <IceFormBinder
                         name="userEmail"
                         required
@@ -341,7 +330,7 @@ export default class ColumnForm extends Component {
 
                     <Col s="12" l="10">
                       <DatePicker
-                        style={{width:'100%'}}
+                        style={{ width: '100%' }}
                         disabledDate={this.disabledEndDate.bind(this)}
                         showTime
                         value={endValue}

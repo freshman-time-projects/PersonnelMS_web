@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import IceContainer from '@icedesign/container';
-import { Tab, Button, Pagination } from '@icedesign/base';
+import { Tab, Button, Pagination, Feedback } from '@icedesign/base';
 import axios from 'axios';
 import CustomTable from './components/CustomTable';
 import EditDialog from './components/EditDialog';
 import DeleteBalloon from './components/DeleteBalloon';
 import { withRouter, Route, Router } from 'react-router-dom'
-
 
 
 const dataSource = [];
@@ -26,8 +25,8 @@ export default class TabTable extends Component {
     this.columns = [
       {
         title: 'ID',
-        dataIndex: 'e_id',
-        key: 'e_id',
+        dataIndex: 'r_id',
+        key: 'r_id',
       },
       {
         title: '姓名',
@@ -35,29 +34,24 @@ export default class TabTable extends Component {
         key: 'name',
       },
       {
-        title: '年龄',
-        dataIndex: 'age',
-        key: 'age',
-      },
-      {
         title: '性别',
         dataIndex: 'sex',
         key: 'idCard',
       },
       {
-        title: '婚姻状态',
-        dataIndex: 'marry',
-        key: 'marry',
-      },
-      {
-        title: '身份证',
-        dataIndex: 'idCard',
-        key: 'idCard',
-      },
-      {
         title: '学历',
-        dataIndex: 'edu',
-        key: 'edu',
+        dataIndex: 'school',
+        key: 'school',
+      },
+      {
+        title: '个人简历',
+        dataIndex: 'filepath',
+        key: 'filepath',
+      },
+      {
+        title: '联系方式',
+        dataIndex: 'email',
+        key: 'email',
       },
       {
         title: '毕业学校',
@@ -65,42 +59,23 @@ export default class TabTable extends Component {
         key: 'school',
       },
       {
-        title: '手机',
-        dataIndex: 'mobile',
-        key: 'mobile',
-      },
-      {
-        title: '家庭住址',
-        dataIndex: 'address',
-        key: 'address',
-      },
-      {
-        title: '邮箱',
-        dataIndex: 'email',
-        key: 'email',
-      },
-      {
-        title: '部门',
-        dataIndex: 'hardwareId',
-        key: 'hardwareId',
-      },
-      {
         title: '操作',
         key: 'action',
         render: (value, index, record) => {
           return (
             <span>
-              <EditDialog
+              {/* <EditDialog
                 index={index}
                 record={record}
                 dataList={this.props.data}
                 getFormValues={this.getFormValues}
                 onEditChange={this.props.onEditChange}
-              />
+              /> */}
               {/* <DeleteBalloon
                 handleRemove={() => this.handleRemove(value, index, record)}
               /> */}
-              <Button shape="text" onClick={() => this.info(index)}>离职</Button>
+              <Button size="small" type="primary" onClick={() => this.access(index, value, record)}>通过</Button>
+              <Button size="small" type="normal" shape="warning" onClick={() => this.fail(index, value, record)}>拒绝</Button>
             </span>
           );
         },
@@ -130,11 +105,33 @@ export default class TabTable extends Component {
     this.props.call(current)
   }
 
-  info = (index) => {
-    const current = this.props.current;
-    const { assignmentToken } = this.props.data[index]
-    const { specificationToken } = this.props.data[index]
-    this.props.history.push(`/device/info/${specificationToken}/${assignmentToken}/${index}/${current}`)
+  access = (index, record, value) => {
+    console.log("indexxxx", value)
+    axios
+      .put(`/api/PersonnelMS/recruit_pass?email=${value.email}&name=${value.name}&userStatus=3`)
+      .then((res) => {
+        console.log("rrr", res)
+        if (res.data.code === 5) {
+          this.props.call(1)
+          Feedback.toast.success(res.data.msg);
+        } else {
+          Feedback.toast.error(res.data.msg);
+        }
+      });
+  }
+  fail = (index, record, value) => {
+    console.log("indexxxx", value)
+    axios
+      .put(`/api/PersonnelMS/recruit_failed?id=${value.r_id}&userStatus=-2`)
+      .then((res) => {
+        console.log("rrr", res)
+        if (res.data.code === 0) {
+          this.props.call(1)
+          Feedback.toast.success(res.data.msg);
+        } else {
+          Feedback.toast.error("操作失败，未知错误！");
+        }
+      });
   }
 
   render() {
@@ -190,7 +187,7 @@ const styles = {
   center: {
     background: '#eee',
     padding: '25px 40px 40px 40px',
-    borderRadius:'5px'
+    borderRadius: '5px'
   },
   pagination: {
     textAlign: 'right',

@@ -9,9 +9,16 @@ import { Link } from 'react-router-dom';
 import { headerMenuConfig } from './../menuConfig';
 import axios from 'axios';
 import Logo from './Logo';
+import cookie from 'react-cookies';
 
 export default class Header extends PureComponent {
+  constructor(props) {
+    super(props);
+   
+  }
+
   render() {
+    const username = cookie.load('username');
     const { width, theme, isMobile, className, style } = this.props;
 
     return (
@@ -82,7 +89,7 @@ export default class Header extends PureComponent {
                 />
                 <div className="user-profile">
                   <span className="user-name" style={{ fontSize: '13px' }}>
-                    113
+                    {username}
                   </span>
                   <br />
                   <span
@@ -114,7 +121,7 @@ export default class Header extends PureComponent {
                 </Link>
               </li>
               <li className="user-profile-menu-item">
-                <Link  onClick={() => {
+                <Link onClick={() => {
                   axios
                     .post('api/PersonnelMS/user_logout')
                     .then((response) => {
@@ -131,7 +138,7 @@ export default class Header extends PureComponent {
                       console.log(error);
                     })
                 }}
-                to="/"
+                  to="/"
                 >
                   <FoundationSymbol type="compass" size="small" />退出
                 </Link>

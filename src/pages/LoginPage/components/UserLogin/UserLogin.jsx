@@ -17,6 +17,9 @@ const { Row, Col } = Grid;
 // 寻找背景图片可以从 https://unsplash.com/ 寻找
 const backgroundImage =
   'https://img.alicdn.com/tfs/TB1zsNhXTtYBeNjy1XdXXXXyVXa-2252-1500.png';
+function toast(msg) {
+  Feedback.toast.success(msg);
+}
 document.onkeyup = (e) => {
   let _key
   if (e == null) {
@@ -27,8 +30,29 @@ document.onkeyup = (e) => {
   if (_key == 13) {
     if (document.getElementById('btnLogin') != null)
       document.getElementById('btnLogin').click()
-    else
-      Feedback.toast.success('你好')
+    else {
+      let rnd = Math.floor(Math.random() * 10);
+      switch (rnd) {
+        case 1: toast("你好");
+          break;
+        case 2: toast("期末稳过！");
+          break;
+        case 3: toast("stay hungry stay foolish!");
+          break;
+        case 4: toast("四级稳过！");
+          break;
+        case 5: toast("Never go out there to see what happened,go out there to make happens");
+          break;
+        case 6: toast("六级稳过！");
+          break;
+        case 7: toast("talk is cheap,show me the code!");
+          break;
+        case 8: toast("you share rose get fun!");
+          break;
+        case 9: toast("Make more time!");
+          break;
+      }
+    }
   }
 }
 export default class UserLogin extends Component {
@@ -76,10 +100,11 @@ export default class UserLogin extends Component {
             Feedback.toast.success(data.msg);
             // location.href="/#spec"
             cookie.save('role', data.content.role);
-            if(data.content.role === "1")
-            this.props.history.push("/index");
-            else if(data.content.role === "3")
-            this.props.history.push("/");
+            cookie.save('username', data.content.username);
+            if (data.content.role === "1")
+              this.props.history.push("/index");
+            else if (data.content.role === "3")
+              this.props.history.push("/");
           }
           else if (data.code === 2) {
             Feedback.toast.error(data.msg);

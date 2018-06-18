@@ -35,6 +35,9 @@ Software architecture description
 1. 完成登录页面、员工信息查看页面、部门页面、用户信息查看页面、注销登录 数据对接
 2. 完成招聘管理、薪金管理、首页（数据展示页）, 用户信息完善页面(用户端)
 3. 
+
+##### SunAo 2018/6/14 3:35
+1. 登录注册逻辑调整... 
 #### Gitee Feature
 
 1. You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
