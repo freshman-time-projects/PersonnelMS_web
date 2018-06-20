@@ -6,6 +6,7 @@ import {
   FormError as IceFormError,
 } from '@icedesign/form-binder';
 import { Input, Button, Select, Grid } from '@icedesign/base';
+import axios from 'axios'
 
 const { Row, Col } = Grid;
 
@@ -20,8 +21,8 @@ export default class ColumnForm extends Component {
     super(props);
     this.state = {
       value: {
-        deviceId: '',
-        deviceDes: '',
+        name: '',
+        department: '',
       },
     };
   }
@@ -35,8 +36,8 @@ export default class ColumnForm extends Component {
   reset = () => {
     this.setState({
       value: {
-        deviceId: '',
-        deviceDes: '',
+        name: '',
+        department: '',
       },
     });
   };
@@ -48,6 +49,11 @@ export default class ColumnForm extends Component {
         // 处理表单报错
       }
       // 提交当前填写的数据
+      axios
+        .post("api/PersonnelMS/employee_search",value)
+        .then((res)=>{
+          console.log("reess",res)
+        })
     });
   };
 
@@ -67,21 +73,21 @@ export default class ColumnForm extends Component {
                 <Col>
                   <Row style={styles.formItem}>
                     <Col span='4' style={{marginLeft:'20px'}}>
-                      设备名称：
+                      员工姓名：
                     </Col>
                     <Col>
                       <IceFormBinder
-                        name="deviceId"
+                        name="name"
                       >
                         <Input  />
                       </IceFormBinder>
                     </Col>
                     <Col span='4' style={{marginLeft:'20px'}}>
-                      设备描述：
+                      部门：
                     </Col>
                     <Col>
                       <IceFormBinder
-                        name="deviceDes"
+                        name="department"
                       >
                         <Input  />
                       </IceFormBinder>

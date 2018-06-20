@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from '@icedesign/base';
-import { Tab, Button, Grid, Icon, Pagination, Loading,Feedback } from '@icedesign/base';
+import { Tab, Button, Grid, Icon, Pagination, Loading, Feedback } from '@icedesign/base';
 import { Link } from 'react-router-dom'
 import EditDialog from './../components/EditDialog';
 import DeleteBalloon from './../components/DeleteBalloon';
 const { Row, Col } = Grid;
 const ButtonGroup = Button.Group;
+import cookie from 'react-cookies'
 import axios from 'axios'
 export default class CustomTable extends Component {
   static displayName = 'CustomTable';
@@ -57,9 +58,9 @@ export default class CustomTable extends Component {
     const { dataSource } = this.props;
     const id = dataSource[index].e_id
     const e_id = `{"e_id":"${id}"}`
-    console.log("indxxx",index)
-    console.log("idddd",id)
-    axios.post(`/api/PersonnelMS/employee_romove`,JSON.parse(e_id)).then((res) => {
+    console.log("indxxx", index)
+    console.log("idddd", id)
+    axios.post(`/api/PersonnelMS/employee_romove`, JSON.parse(e_id)).then((res) => {
       console.log('res: ', res);
       if (res.data.code === 0) {
         Feedback.toast.success("删除成功");
@@ -121,8 +122,11 @@ export default class CustomTable extends Component {
   }
 
   render() {
+    const role = cookie.load("role")
     const { dataSource } = this.props
     console.log("sss123", this.props)
+    console.log("!!!!", role)
+
     return (
 
       <div>
@@ -168,36 +172,60 @@ export default class CustomTable extends Component {
           <Table.Column title="ID" align={'center'} dataIndex="e_id" width={40} />
           <Table.Column title="姓名" align={'center'} dataIndex="name" width={60} />
           <Table.Column title="性别" align={'center'} dataIndex="sex" width={50} />
-          <Table.Column title="年龄" align={'center'} dataIndex="age" width={50} />
           <Table.Column title="部门" align={'center'} dataIndex="department" width={70} />
           <Table.Column title="手机" align={'center'} dataIndex="mobile" width={100} />
           <Table.Column title="邮箱" align={'center'} dataIndex="email" width={100} />
-          <Table.Column title="身份证" align={'center'} dataIndex="idCard" width={120} />
-          <Table.Column title="家庭住址" align={'center'} dataIndex="address" width={120} />
-          <Table.Column title="学历" align={'center'} dataIndex="edu" width={50} />
-          <Table.Column title="毕业学校" align={'center'} dataIndex="school" width={80} />
-          <Table.Column title="婚姻状况" align={'center'} dataIndex="marry" width={80} />
-          <Table.Column title="操作" align={'center'} lock="right" cell={
-            (value, index, record) => {
-              return (
-                <div style={{ display: 'inline' }} >
-                  <EditDialog
-                    current={this.props.current}
-                    index={index}
-                    record={record}
-                    dataList={this.props.data}
-                    getFormValues={this.getFormValues}
-                    onEditChange={this.props.call}
-                  />
-                  <DeleteBalloon
-                    index={index}
-                    // id={this.columns.id}
-                    handleRemove={() => this.handleRemove(value, index, record)}
-                  />
-                  {/* <Button type="primary" onClick={() => this.info(index)}>离职</Button> */}
-                </div>
-              );
-            }} width={150} />
+          {role === "3" ? <Table.Column title="年龄" align={'center'} dataIndex="age" width={50} /> : null}
+          {role === "3" ? <Table.Column title="身份证" align={'center'} dataIndex="idCard" width={120} /> : null}
+          {role === "3" ? <Table.Column title="家庭住址" align={'center'} dataIndex="address" width={120} /> : null}
+          {role === "3" ? <Table.Column title="学历" align={'center'} dataIndex="edu" width={50} /> : null}
+          {role === "3" ? <Table.Column title="毕业学校" align={'center'} dataIndex="school" width={80} /> : null}
+          {role === "3" ? <Table.Column title="婚姻状况" align={'center'} dataIndex="marry" width={80} /> : null}
+          {
+            role === "3" ? (
+              <Table.Column title="操作" align={'center'} lock="right" cell={
+                (value, index, record) => {
+                  return (
+                    <div style={{ display: 'inline' }} >
+                      <EditDialog
+                        current={this.props.current}
+                        index={index}
+                        record={record}
+                        dataList={this.props.data}
+                        getFormValues={this.getFormValues}
+                        onEditChange={this.props.call}
+                      />
+                      <DeleteBalloon
+                        index={index}
+                        // id={this.columns.id}
+                        handleRemove={() => this.handleRemove(value, index, record)}
+                      />
+                    </div>
+                  );
+                }} width={150} />
+
+            ) : (null)
+          }
+          {/* <Table.Column title="操作" align={'center'} lock="right" cell={
+                (value, index, record) => {
+                  return (
+                    <div style={{ display: 'inline' }} >
+                      <EditDialog
+                        current={this.props.current}
+                        index={index}
+                        record={record}
+                        dataList={this.props.data}
+                        getFormValues={this.getFormValues}
+                        onEditChange={this.props.call}
+                      />
+                      <DeleteBalloon
+                        index={index}
+                        // id={this.columns.id}
+                        handleRemove={() => this.handleRemove(value, index, record)}
+                      />
+                    </div>
+                  );
+                }} width={150} /> */}
 
           {/* {this.renderColumns()} */}
 

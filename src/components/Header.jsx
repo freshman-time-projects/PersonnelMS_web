@@ -14,7 +14,7 @@ import cookie from 'react-cookies';
 export default class Header extends PureComponent {
   constructor(props) {
     super(props);
-   
+
   }
 
   render() {
@@ -81,12 +81,17 @@ export default class Header extends PureComponent {
                   fontSize: 12,
                 }}
               >
-                <IceImg
+                {cookie.load("role") === "3" ? <IceImg
                   height={40}
                   width={40}
-                  src="https://img.alicdn.com/tfs/TB1L6tBXQyWBuNjy0FpXXassXXa-80-80.png"
+                  src={require("../image/avator.png")}
                   className="user-avatar"
-                />
+                /> : <IceImg
+                    height={40}
+                    width={40}
+                    src="https://gitee.com/uploads/79/1874379_zzuisa.png?1524776095"
+                    className="user-avatar"
+                  />}
                 <div className="user-profile">
                   <span className="user-name" style={{ fontSize: '13px' }}>
                     {username}
@@ -138,7 +143,7 @@ export default class Header extends PureComponent {
                       console.log(error);
                     })
                 }}
-                  to="/"
+                  to="/login"
                 >
                   <FoundationSymbol type="compass" size="small" />退出
                 </Link>

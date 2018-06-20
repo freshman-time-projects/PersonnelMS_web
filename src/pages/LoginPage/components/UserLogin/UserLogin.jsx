@@ -99,8 +99,10 @@ export default class UserLogin extends Component {
           if (data.code === 0) {
             Feedback.toast.success(data.msg);
             // location.href="/#spec"
+            cookie.remove("user");
             cookie.save('role', data.content.role);
             cookie.save('username', data.content.username);
+            cookie.save('user', data.dataSource);
             if (data.content.role === "1")
               this.props.history.push("/index");
             else if (data.content.role === "3")

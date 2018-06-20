@@ -15,10 +15,6 @@ const { Row, Col } = Grid;
 const FormItem = Form.Item;
 const fileList = [];
 
-const SelectList =[
-  { label: '人事部', value: '人事部' },
-  { label: '技术部', value: '技术部' },
-]
 export default class UserForm extends Component {
 
   field = new Field(this, {
@@ -34,10 +30,40 @@ export default class UserForm extends Component {
     super(props);
     this.state = {
       value: {
-        name:'',
-        department:'1'
+        name: '',
+        department: '',
+        email: '',
       },
+      col: [],
+      SelectList: [
+        { label: '人事部', value: '人事部' },
+        { label: '技术部', value: '技术部' },
+      ]
     };
+  }
+  getNames = () => {
+    axios
+      .get("api/PersonnelMS/department_getNames")
+      .then((res) => {
+        this.setState({
+          col: res.data.content.col.names
+        },()=>{console.log("col",this.state.col)})
+        console.log("ccc",this.state)
+        const _dataSource = []
+        for (let _c in this.state.col) {
+          _dataSource.push(JSON.parse(`{"label":"${this.state.col[_c]}","value":"${this.state.col[_c]}"}`))
+        }
+        this.setState({
+          SelectList: _dataSource
+        }, () => {
+          console.log("this.sett", this.state.SelectList)
+        })
+      })
+  }
+  componentWillMount() {
+    this.state.value.name = this.props.match.params.name
+    this.getNames()
+   
   }
   setValues = () => {
     this.field.setValues({
@@ -53,6 +79,7 @@ export default class UserForm extends Component {
   validateAllFormField = () => {
     this.refs.form.validateAll((errors, values) => {
       console.log("values:", values);
+      values.email = this.props.match.params.email
       // TODO 只能传一个
       axios
         .post(`api/PersonnelMS/employee_add`, values)
@@ -68,7 +95,7 @@ export default class UserForm extends Component {
             //  })
             // 完成后跳转
           } else {
-            Feedback.toast.error("操作异常，添加失败！");
+            Feedback.toast.error(response.data.msg);
           }
           console.log("res", response);
         })
@@ -112,6 +139,8 @@ export default class UserForm extends Component {
   render() {
     const init = this.field.init;
     console.log("file", fileList)
+    const { SelectList } = this.state
+
     return (
       <div className="user-form">
         <IceContainer>
@@ -133,15 +162,16 @@ export default class UserForm extends Component {
                     <IceFormBinder name="name" required message="必填">
                       <Input
                         size="large"
-                        placeholder="请输入设备名"
+                        placeholder="请输入员工名"
                         style={{ width: '100%' }}
                       />
                     </IceFormBinder>
                     <IceFormError name="name" />
                   </Col>
                 </Row>
+
               </div>
-           
+
 
               <Row style={styles.formItem} justify="center">
                 <Col style={styles.formLabel} span="2">
@@ -152,12 +182,12 @@ export default class UserForm extends Component {
                     name="department"
                   >
                     <Select
-                            className="next-form-text-align"
-                            style={{ width: '100%' }}
-                            required
-                            message="请选择您的学历"
-                            dataSource={SelectList}
-                          />
+                      className="next-form-text-align"
+                      style={{ width: '100%' }}
+                      required
+                      message="请选择您的学历"
+                      dataSource={SelectList}
+                    />
                   </IceFormBinder>
                 </Col>
               </Row>

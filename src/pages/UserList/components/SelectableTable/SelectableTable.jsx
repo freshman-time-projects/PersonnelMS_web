@@ -189,13 +189,13 @@ export default class SelectableTable extends Component {
             <Table.Column title="编码" dataIndex="u_id" width={50} />
             <Table.Column title="用户名" dataIndex="username" width={80} />
             <Table.Column title="密码" dataIndex="password" width={80} />
-            <Table.Column title="邮箱" dataIndex="email" width={150} />
-            <Table.Column title="创建时间" dataIndex="createdDate" width={130} />
-            <Table.Column title="角色" dataIndex="role" width={80} />
+            <Table.Column title="邮箱" dataIndex="email" width={120} />
+            <Table.Column title="创建时间" dataIndex="createdDate" width={100} />
+            <Table.Column title="角色" dataIndex="role" width={50} />
             <Table.Column
               title="状态"
               dataIndex="code"
-              width={60}
+              width={120}
             />
           </Table>
           <div style={styles.pagination}>

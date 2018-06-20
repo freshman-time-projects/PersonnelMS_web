@@ -10,14 +10,14 @@ const headerMenuConfig = [
   },
   {
     name: '反馈',
-    path: 'https://github.com/alibaba/ice',
+    path: 'https://gitee.com/zzuisa/',
     external: true,
     newWindow: true,
     icon: 'message',
   },
   {
     name: '帮助',
-    path: 'https://alibaba.github.io/ice',
+    path: 'https://gitee.com/zzuisa/',
     external: true,
     newWindow: true,
     icon: 'bangzhu',

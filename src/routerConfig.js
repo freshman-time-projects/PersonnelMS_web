@@ -41,6 +41,11 @@ const routerConfig = [
     component: EmployeeList,
   },
   {
+    path: '/employee/add/:name/:email',
+    layout: HeaderAsideFooterResponsiveLayout,
+    component: EmployeeAdd,
+  },
+  {
     path: '/employee/add',
     layout: HeaderAsideFooterResponsiveLayout,
     component: EmployeeAdd,
@@ -59,6 +64,11 @@ const routerConfig = [
     path: '/',
     layout: HeaderAsideFooterResponsiveLayout,
     component: Dashboard,
+  },
+  {
+    path: '/index',
+    layout: HeaderAsideFooterResponsiveLayout,
+    component: Home,
   },
   {
     path: '/recruit/list',

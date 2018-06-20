@@ -20,14 +20,16 @@ export default class Dashboard extends Component {
   }
   componentDidMount() {
     // 加载数据
-    axios.get(`/api/globalStatistics/count`).then((res) => {
+    axios.get(`/api/PersonnelMS/employee_count`).then((res) => {
 
       const data = res.data;
-      console.log('data: ', res);
-      console.log('data: ', res.data.content);
+      console.log('data: ', res.data);
+      this.setState({
+        data
+      });
       if (data.code === 0) {
         this.setState({
-          data: data.content
+          data2:res.data
         });
       } else if (data.code === 1) {
         Feedback.toast.error("您未登录，请登录！")
@@ -37,6 +39,7 @@ export default class Dashboard extends Component {
   }
   render() {
     const { data } = this.state
+    console.log("ddd",data)
     return (
       <div className="dashboard-page">
         <div style={styles.center}>
@@ -52,14 +55,14 @@ export default class Dashboard extends Component {
             </Col>
             <Col span={8}>
                 <div style={{ paddingLeft: '30px', paddingTop: '30px' }}>
-                <p>总数据量</p>
+                <p>总员工量</p>
                 <p style={styles.data}>{data.measurementsCount}</p>
-                <p><span style={styles.dataGreen}><Icon type="arrow-up-filling" />10%</span>同比上周</p>
+                <p><span style={styles.dataGreen}><Icon type="arrow-up-filling" />10%</span>同比上月</p>
               </div>
               <div style={{ marginTop: 40, paddingLeft: '30px' }}>
-                <p>本周数据量</p>
+                <p>本周员工量</p>
                 <p style={styles.data}>{data.measurementsCount}</p>
-                <p><span style={styles.dataRed}><Icon type="arrow-down-filling" />10%</span>同比上周</p>
+                <p><span style={styles.dataRed}><Icon type="arrow-down-filling" />10%</span>同比上月</p>
               </div>
             </Col>
 

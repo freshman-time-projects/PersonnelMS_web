@@ -12,7 +12,9 @@ export default class EmployeeEdit extends Component {
   render() {
     return (
       <div className="employee-edit-page">
-        <Employee_Edit />
+        <Employee_Edit 
+          history={this.props.history}
+        />
       </div>
     );
   }

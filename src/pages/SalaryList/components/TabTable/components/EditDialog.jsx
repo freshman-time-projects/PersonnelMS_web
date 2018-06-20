@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Dialog, Button, Form, Input, Field, Feedback } from '@icedesign/base';
-import axios from 'axios';
+import { Dialog, Button, Form, Input, Field } from '@icedesign/base';
 
 const FormItem = Form.Item;
 
@@ -14,17 +13,12 @@ export default class EditDialog extends Component {
     this.state = {
       visible: false,
       dataIndex: null,
-      dataList: [],
     };
     this.field = new Field(this);
   }
 
-  handleSubmit = (index) => {
-
-    const { dataList } = this.props
-    const id = dataList[index].id
+  handleSubmit = () => {
     this.field.validate((errors, values) => {
-      delete values.id, values.createdDate, values.specificationToken, values.hardwareID, values.assignmentToken;
       if (errors) {
         console.log('Errors in form!!!');
         return;
@@ -35,32 +29,8 @@ export default class EditDialog extends Component {
       this.setState({
         visible: false,
       });
-      axios
-        .put(`/api/devices/${id}`, values)
-        .then((res) => {
-          
-          if (res.data.code === 0) {
-            const value = Object.assign({},values);
-            
-            delete value.id;
-            delete value.createdDate;
-            delete value.specificationToken;
-            delete value.hardwareId;
-            delete value.assignmentToken;
-
-            console.log("&&&&",value)
-            Feedback.toast.success("修改成功");
-            this.props.onEditChange(values, index)
-          } else {
-            Feedback.toast.error("修改失败，未知错误！");
-
-          }
-          // this.getPageData(sdji, jis)
-        });
     });
   };
-
-
 
   onOpen = (index, record) => {
     this.field.setValues({ ...record });
@@ -91,7 +61,8 @@ export default class EditDialog extends Component {
     return (
       <div style={styles.editDialog}>
         <Button
-          shape="text"
+          size="small"
+          type="primary"
           onClick={() => this.onOpen(index, record)}
         >
           编辑
@@ -99,37 +70,44 @@ export default class EditDialog extends Component {
         <Dialog
           style={{ width: 640 }}
           visible={this.state.visible}
-          onOk={() => this.handleSubmit(index)}
+          onOk={this.handleSubmit}
           closable="esc,mask,close"
           onCancel={this.onClose}
           onClose={this.onClose}
           title="编辑"
         >
           <Form direction="ver" field={this.field}>
-            <FormItem label="员工名称：" {...formItemLayout}>
+            <FormItem label="标题：" {...formItemLayout}>
               <Input
-                {...init('name', {
+                {...init('title', {
                   rules: [{ required: true, message: '必填选项' }],
                 })}
               />
             </FormItem>
 
-            <FormItem label="员工icon：" {...formItemLayout}>
+            <FormItem label="作者：" {...formItemLayout}>
               <Input
-                {...init('image', {
+                {...init('author', {
                   rules: [{ required: true, message: '必填选项' }],
                 })}
               />
             </FormItem>
 
-            <FormItem label="员工描述：" {...formItemLayout}>
+            <FormItem label="状态：" {...formItemLayout}>
               <Input
-                {...init('description', {
+                {...init('status', {
                   rules: [{ required: true, message: '必填选项' }],
                 })}
               />
             </FormItem>
 
+            <FormItem label="发布时间：" {...formItemLayout}>
+              <Input
+                {...init('date', {
+                  rules: [{ required: true, message: '必填选项' }],
+                })}
+              />
+            </FormItem>
           </Form>
         </Dialog>
       </div>

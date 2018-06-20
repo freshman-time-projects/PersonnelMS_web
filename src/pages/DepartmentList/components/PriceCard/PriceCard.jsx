@@ -94,7 +94,7 @@ export default class PriceCard extends Component {
                     </div>
                     <div className="issue" style={styles.buyBtn}>
                       <Col l='8'><Link to={`/employee/${item.token}`}>员工数量：<b>{item.sumpeople}</b></Link></Col>
-                      <Col l='16'><Link to={`/department/${item.token}`}>创建时间：<b>{item.dataItemCount}</b></Link></Col>
+                      {/* <Col l='16'><Link to={`/department/${item.token}`}>创建时间：<b>{item.dataItemCount}</b></Link></Col> */}
                     </div>
                   </div>
                 </Col>

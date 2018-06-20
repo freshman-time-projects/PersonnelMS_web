@@ -30,7 +30,9 @@ export default class EmployeeAdd extends Component {
         </div>
         <CustomBreadcrumb dataSource={breadcrumb} />
         <div style={styles.center}>
-          <UserForm history={this.props.history} spectoken={this.props.match.params.spectoken} />
+          <UserForm
+            history={this.props.history}
+            match={this.props.match} />
         </div>
       </div>
     );
@@ -59,7 +61,7 @@ const styles = {
   center: {
     background: '#eee',
     padding: '25px 40px 40px 40px',
-    borderRadius:'5px'
+    borderRadius: '5px'
   },
   pagination: {
     textAlign: 'right',

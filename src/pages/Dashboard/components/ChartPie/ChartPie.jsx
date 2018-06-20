@@ -18,11 +18,11 @@ export default class ChartPie extends Component {
   render() {
     // 参考：https://alibaba.github.io/BizCharts/
     const data = [
-      { item: '事例一', count: 40 },
-      { item: '事例二', count: 21 },
-      { item: '事例三', count: 17 },
-      { item: '事例四', count: 13 },
-      { item: '事例五', count: 9 },
+      { item: '20K~40K', count: 40 },
+      { item: '40K~60K', count: 21 },
+      { item: '60K~80K', count: 17 },
+      { item: '80K~100K', count: 13 },
+      { item: '200K~', count: 9 },
     ];
 
     const dv = new DataView();
@@ -45,7 +45,7 @@ export default class ChartPie extends Component {
     return (
       <div className="chart-pie">
         <IceContainer>
-          <h4 style={styles.title}>饼图</h4>
+          <h4 style={styles.title}>工资水平分布（月）</h4>
           <Chart
             height={400}
             data={dv}

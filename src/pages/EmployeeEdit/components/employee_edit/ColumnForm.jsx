@@ -5,7 +5,9 @@ import {
   FormBinder as IceFormBinder,
   FormError as IceFormError,
 } from '@icedesign/form-binder';
-import { Input, Button, Select, Grid, Card } from '@icedesign/base';
+import cookie from 'react-cookies';
+import axios from 'axios';
+import { Input, Button, Select, Grid, Card, Feedback } from '@icedesign/base';
 
 const { Row, Col } = Grid;
 
@@ -20,22 +22,27 @@ export default class ColumnForm extends Component {
     super(props);
     this.state = {
       value: {
-        name:'',
-        e_id:'',
-        email:'',
-        marry:'',
-        sex:'',
-        age:'',
-        idCard:'',
-        edu:'',
-        school:'',
-        mobile:'',
-        address:'',
-        department:''
+        name: '',
+        email: '',
+        marry: '',
+        sex: '',
+        age: '',
+        idCard: '',
+        edu: '',
+        school: '',
+        mobile: '',
+        address: '',
       },
     };
   }
+  componentWillMount() {
+    const user = cookie.load('user')
+    console.log("user", user)
+    this.setState({
+      value: user
+    })
 
+  }
   onFormChange = (value) => {
     this.setState({
       value,
@@ -55,10 +62,13 @@ export default class ColumnForm extends Component {
   };
 
   submit = () => {
-    this.formRef.validateAll((error, value) => {
-      console.log('error', error, 'value', value);
+    this.formRef.validateAll((errors, value) => {
+      if (errors) {
+        console.log('errors', errors);
+        return;
+      }
       axios
-        .post(`api/PersonnelMS/employee_edit`, value).then((res) => {
+        .post(`api/PersonnelMS/employee_update`, value).then((res) => {
           const data = res.data;
           // const { totalCount } = data.content
           console.log("datass", res)
@@ -72,9 +82,7 @@ export default class ColumnForm extends Component {
           }
           // this.getPageData(sdji, jis)
         });
-      if (error) {
-        // 处理表单报错
-      }
+
       // 提交当前填写的数据
     });
   };
@@ -91,7 +99,7 @@ export default class ColumnForm extends Component {
             onChange={this.onFormChange}
           >
             <div>
-              <Card style={{ width: '100%', marginBottom: '20px' }} >
+              <Card style={{ width: '100%', marginBottom: '20px',minHeight:'200px' }} >
                 <Row wrap>
                   <Col xxs="24" s="12" l="12">
                     <Row style={styles.formItem}>
@@ -129,6 +137,25 @@ export default class ColumnForm extends Component {
                       </Col>
                     </Row>
 
+                  </Col>
+
+                  <Col xxs="24" s="12" l="12">
+                    <Row style={styles.formItem}>
+                      <Col xxs="8" s="6" l="4" style={styles.formLabel}>
+                        手机：
+                    </Col>
+
+                      <Col s="12" l="12">
+                        <IceFormBinder
+                          name="mobile"
+                          required
+                          message="手机"
+                        >
+                          <Input style={{ width: '100%' }} />
+                        </IceFormBinder>
+                        <IceFormError name="mobile" />
+                      </Col>
+                    </Row>
                     <Row style={styles.formItem}>
                       <Col xxs="8" s="6" l="4" style={styles.formLabel}>
                         学历：
@@ -149,41 +176,6 @@ export default class ColumnForm extends Component {
                           />
                         </IceFormBinder>
                         <IceFormError name="edu" />
-                      </Col>
-                    </Row>
-                  </Col>
-
-                  <Col xxs="24" s="12" l="12">
-                    <Row style={styles.formItem}>
-                      <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                        部门：
-                    </Col>
-
-                      <Col s="12" l="12">
-                        <IceFormBinder
-                          name="depatment"
-                          required
-                          message="部门"
-                        >
-                          <Input style={{ width: '100%' }} />
-                        </IceFormBinder>
-                        <IceFormError name="depatment" />
-                      </Col>
-                    </Row>
-                    <Row style={styles.formItem}>
-                      <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                        手机：
-                    </Col>
-
-                      <Col s="12" l="12">
-                        <IceFormBinder
-                          name="mobile"
-                          required
-                          message="手机"
-                        >
-                          <Input style={{ width: '100%' }} />
-                        </IceFormBinder>
-                        <IceFormError name="mobile" />
                       </Col>
                     </Row>
                   </Col>
@@ -261,22 +253,6 @@ export default class ColumnForm extends Component {
                         />
                       </IceFormBinder>
                       <IceFormError name="marry" />
-                    </Col>
-                  </Row>
-                  <Row style={styles.formItem}>
-                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                      手机：
-                    </Col>
-
-                    <Col s="12" l="12">
-                      <IceFormBinder
-                        name="mobile"
-                        required
-                        message="手机"
-                      >
-                        <Input style={{ width: '100%' }} />
-                      </IceFormBinder>
-                      <IceFormError name="mobile" />
                     </Col>
                   </Row>
                 </Col>

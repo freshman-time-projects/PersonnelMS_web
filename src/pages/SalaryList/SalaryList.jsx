@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import SalaryTable from './components/SalaryTable';
+import CustomBreadcrumb from '../../components/CustomBreadcrumb';
+import TagTable from './components/TagTable';
 
-export default class SalaryList extends Component {
-  static displayName = 'SalaryList';
+
+export default class UserList extends Component {
+  static displayName = 'UserList';
 
   constructor(props) {
     super(props);
@@ -10,9 +12,15 @@ export default class SalaryList extends Component {
   }
 
   render() {
-    return (
-      <div className="salary-list-page">
-        <SalaryTable />
+    const breadcrumb = [
+      { text: '用户管理', link: '' },
+      { text: '添加列表', link: '#/user/userList' },
+    ];
+    return( 
+      <div className="user-list-page" >
+        <CustomBreadcrumb dataSource={breadcrumb} />
+        <TagTable />
+        
       </div>
     );
   }

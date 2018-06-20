@@ -25,7 +25,7 @@ export default class CustomTable extends Component {
       selectedRowKeys: [],
       current: 1,
       totalCount: 0,
-     
+
     };
     this.handleChange = this.handleChange.bind(this);
 
@@ -104,31 +104,19 @@ export default class CustomTable extends Component {
               <Icon type="add" />增加
             </Button>
           </Link>
-          <Button
-            onClick={this.clearSelectedKeys}
-            style={styles.batchBtn}
-            type="normal"
-          >
-            <Icon type="close" />清空选中
-        </Button>
-          <ButtonGroup style={styles.batchBtn}>
-            <Button type="normal">运行</Button>
-            <Button type="normal">禁用</Button>
-          </ButtonGroup>
           <a href="/" download>
             <Button>
               <Icon size="small" type="download" /> 导出信息
         </Button>
           </a>
         </Row>
-        
-          <Table {...this.props}
 
+        <Table {...this.props}
           isLoading={this.state.__loading}
-          rowSelection={{
-            ...this.rowSelection,
-            selectedRowKeys: this.state.selectedRowKeys,
-          }}
+          // rowSelection={{
+          //   ...this.rowSelection,
+          //   selectedRowKeys: this.state.selectedRowKeys,
+          // }}
         >
 
           {this.renderColumns()}

@@ -35,7 +35,7 @@ export default class ColumnForm extends Component {
   //日期 
   getPageData = (current) => {
     console.log('current: ', current);
-    
+
     axios
       .get(`/api/PersonnelMS/recruit_getAllRecruit?userStatus=${this.props.userStatus}`).then((res) => {
 

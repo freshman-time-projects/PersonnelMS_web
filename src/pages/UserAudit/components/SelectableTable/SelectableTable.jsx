@@ -143,7 +143,7 @@ export default class SelectableTable extends Component {
                     .then((res) => {
                       console.log("rrr", res)
                       if (res.data.code === 0) {
-                        this.props.pageCall(this.state.current)
+                        this.props.pageCall(1)
                         Feedback.toast.success("操作成功");
                         this.setState({
                           selectedRowKeys:[]
@@ -165,7 +165,7 @@ export default class SelectableTable extends Component {
                     .put(`/api/PersonnelMS/recruit_update?ids=${this.state.selectedRowKeys}&userStatus=-1`)
                     .then((res) => {
                       if (res.data.code === 0) {
-                        this.props.pageCall(this.state.current)
+                        this.props.pageCall(1)
                         Feedback.toast.success("操作成功");
                         this.setState({
                           selectedRowKeys:[]

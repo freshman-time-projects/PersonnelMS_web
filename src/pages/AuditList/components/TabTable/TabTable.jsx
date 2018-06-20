@@ -114,6 +114,7 @@ export default class TabTable extends Component {
         if (res.data.code === 5) {
           this.props.call(1)
           Feedback.toast.success(res.data.msg);
+          this.props.history.push(`/employee/add/${value.name}/${value.email}`)
         } else {
           Feedback.toast.error(res.data.msg);
         }
@@ -152,12 +153,12 @@ export default class TabTable extends Component {
             spectoken={this.props.spectoken}
           />
           <div style={styles.pagination}>
-            <Pagination
+            {/* <Pagination
               pageSize={10}
               current={this.state.current}
               total={this.props.totalCount}
               onChange={this.DatahandleChange}
-            />
+            /> */}
           </div>
         </IceContainer>
       </div>
