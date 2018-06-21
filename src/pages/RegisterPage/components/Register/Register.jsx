@@ -189,7 +189,7 @@ export default class Register extends Component {
               src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K"
               alt="logo"
             />
-            <span style={styles.title}>蚂蚁金服</span>
+            <span style={styles.title}>蚂蚁人事管理</span>
           </a>
           <p style={styles.desc}>MYbank</p>
         </div>
@@ -211,9 +211,9 @@ export default class Register extends Component {
                   <IceFormBinder
                     name="username"
                     required
-                    message="姓名"
+                    message="用户名"
                   >
-                    <Input size="large" placeholder="姓名" />
+                    <Input size="large" placeholder="用户名" />
                   </IceFormBinder>
                 </Col>
                 <Col>
@@ -385,13 +385,13 @@ export default class Register extends Component {
                       required
                       min={2}
                       max={10}
-                      readOnly="true"
+                      readOnly={true}
                       message="姓名必填，且最少 2 个字最多 6 个字"
                     >
                       <Input
                         name="name"
                         style={styles.input}
-                        placeholder="请输入姓名"
+                        placeholder="请输入用户名"
                       />
                     </IceFormBinder>
                     <IceFormError name="name" />
@@ -460,7 +460,7 @@ export default class Register extends Component {
                       message="必填！！!"
                     >
                       <Input
-                        readOnly="true"
+                        readOnly={true}
                         name="email"
                         style={styles.input}
                         placeholder="请输入您注册时的邮箱"

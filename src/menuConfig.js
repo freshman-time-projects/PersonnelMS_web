@@ -5,7 +5,7 @@
 const headerMenuConfig = [
   {
     name: '首页',
-    path: '/',
+    path: '#',
     icon: 'home',
   },
   {
@@ -31,7 +31,7 @@ const userMenuConfig = [
     icon: 'home',
   },
   {
-    name: '员工列表',
+    name: '我的同事',
     path: '/employee/list',
     icon: 'shezhi',
   },

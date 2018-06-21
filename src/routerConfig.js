@@ -17,18 +17,19 @@ import EmployeeEdit from './pages/EmployeeEdit';
 import SalaryList from './pages/SalaryList';
 import AuditList from './pages/AuditList';
 import Dashboard from './pages/Dashboard';
-import Register from './pages/RegisterPage'
+import ActiveSuccess from './pages/ActiveSuccess';
+import Register from './pages/RegisterPage';
 
 const routerConfig = [
+  {
+    path: '/',
+    layout: HeaderAsideFooterResponsiveLayout,
+    component: Dashboard,
+  },
   {
     path: '/recruit',
     layout: HeaderAsideFooterResponsiveLayout,
     component: UserAudit,
-  },
-  {
-    path: '/user/info',
-    layout: HeaderAsideFooterResponsiveLayout,
-    component: DepartmentList,
   },
   {
     path: '/user',
@@ -61,9 +62,9 @@ const routerConfig = [
     component: Register,
   },
   {
-    path: '/',
+    path: '/user/info',
     layout: HeaderAsideFooterResponsiveLayout,
-    component: Dashboard,
+    component: DepartmentList,
   },
   {
     path: '/index',
@@ -89,6 +90,11 @@ const routerConfig = [
     path: '/department',
     layout: HeaderAsideFooterResponsiveLayout,
     component: DepartmentList,
+  },
+  {
+    path: '/success',
+    layout: BlankLayout,
+    component: ActiveSuccess,
   },
   {
     path: '*',

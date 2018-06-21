@@ -67,50 +67,31 @@ export default class SelectableTable extends Component {
   constructor(props) {
     super(props);
 
-    // 表格可以勾选配置项
-    this.rowSelection = {
-      // 表格发生勾选状态变化时触发
-      onChange: (ids) => {
-        console.log('ids', ids);
-        this.setState({
-          selectedRowKeys: ids,
-        });
-      },
-      // 全选表格时触发的回调
-      onSelectAll: (selected, records) => {
-        console.log('onSelectAll', selected, records);
-      },
-      // 支持针对特殊行进行定制
-      getProps: (record) => {
-        return {
-
-        };
-      },
-    };
-
     this.state = {
       current: 1,
       selectedRowKeys: [],
       dataList: [],
+      totalCount: 0
     };
   }
 
   getPageData = (current) => {
     console.log('current: ', current);
-   axios
-        .get(`api/PersonnelMS/user_getAll_page?current=${current}`)
-        .then((response) => {
-          const data = response.data;
-          console.log("ressss", response.data.content.length);
-          if(response.data.code === 0){
-            this.setState({
-              dataList: response.data.content,
-              current,
-            },()=>{
-              console.log("dadadada",this.state.dataList)
-            });
-          } 
-        })
+    axios
+      .get(`api/PersonnelMS/user_getAll_page?current=${current}`)
+      .then((response) => {
+        const data = response.data;
+        console.log("%%$", response);
+        if (response.data.code === 0) {
+          this.setState({
+            dataList: response.data.content,
+            current,
+            totalCount:response.data.userCount
+          }, () => {
+            console.log("dadadada", this.state.dataList)
+          });
+        }
+      })
   }
 
   componentWillMount() {
@@ -156,6 +137,7 @@ export default class SelectableTable extends Component {
     const { dataList } = this.state
     return (
       <div className="selectable-table" style={styles.selectableTable}>
+
         <IceContainer style={styles.IceContainer}>
           <div>
             <Button size="medium" type="primary" style={styles.batchBtn}>

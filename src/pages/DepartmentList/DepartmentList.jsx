@@ -57,9 +57,9 @@ export default class DepartmentList extends Component {
           <Row tyle="fluid" align="center">
             <Col span={18}>
               <ul>
-                <li><h1>{departmentCount}个部门</h1></li>
+                <li><h1>部门列表</h1></li>
                 <li>
-                  段落示意：xxxxx</li>
+                {departmentCount}个部门</li>
                 <li style={{ marginTop: '10px' }}>
                   <span style={{ color: '#55abec' }}><Icon style={{ padding: '5px' }} type="skip" /><Link to=""></Link>快速开始</span>
                   <span style={{ padding: '15px', margin: '5px', color: '#55abec' }}><Icon type="comments" style={{ padding: '5px' }} /><Link to=""></Link>产品简介</span>

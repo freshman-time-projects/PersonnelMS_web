@@ -116,14 +116,25 @@ export default class Header extends PureComponent {
           >
             <ul>
               <li className="user-profile-menu-item">
-                <Link to="/">
+                {cookie.load("role") === "3" ? <Link to="/">
                   <FoundationSymbol type="person" size="small" />我的主页
-                </Link>
+                </Link> :
+                  <Link to="/index">
+                    <FoundationSymbol type="person" size="small" />我的主页
+              </Link>
+                }
               </li>
               <li className="user-profile-menu-item">
-                <Link to="/">
-                  <FoundationSymbol type="repair" size="small" />设置
-                </Link>
+                {
+                  cookie.load("role") === "3" ?
+                  <Link to="/">
+                    <FoundationSymbol type="repair" size="small" />设置
+                  </Link> :
+
+                <Link to="/index">
+                <FoundationSymbol type="repair" size="small" />设置
+              </Link>
+                }
               </li>
               <li className="user-profile-menu-item">
                 <Link onClick={() => {

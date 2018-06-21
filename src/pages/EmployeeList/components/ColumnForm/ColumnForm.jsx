@@ -24,6 +24,7 @@ export default class ColumnForm extends Component {
         name: '',
         department: '',
       },
+      dataList: [],
     };
   }
 
@@ -50,9 +51,12 @@ export default class ColumnForm extends Component {
       }
       // 提交当前填写的数据
       axios
-        .post("api/PersonnelMS/employee_search",value)
-        .then((res)=>{
-          console.log("reess",res)
+        .post("api/PersonnelMS/employee_search", value)
+        .then((res) => {
+          console.log("reess", res)
+          this.setState({
+            dataList:res.data.content
+          })
         })
     });
   };
@@ -61,50 +65,50 @@ export default class ColumnForm extends Component {
     return (
       <div className="column-form">
 
-          <IceFormBinderWrapper
-            ref={(formRef) => {
-              this.formRef = formRef;
-            }}
-            value={this.state.value}
-            onChange={this.onFormChange}
-          >
-            <div style={{borderBottom:'3px solid'}}>
-              <Row style={{margin:'25px'}}>
-                <Col>
-                  <Row style={styles.formItem}>
-                    <Col span='4' style={{marginLeft:'20px'}}>
-                      员工姓名：
+        <IceFormBinderWrapper
+          ref={(formRef) => {
+            this.formRef = formRef;
+          }}
+          value={this.state.value}
+          onChange={this.onFormChange}
+        >
+          <div style={{ borderBottom: '3px solid' }}>
+            <Row style={{ margin: '25px' }}>
+              <Col>
+                <Row style={styles.formItem}>
+                  <Col span='4' style={{ marginLeft: '20px' }}>
+                    员工姓名：
                     </Col>
-                    <Col>
-                      <IceFormBinder
-                        name="name"
-                      >
-                        <Input  />
-                      </IceFormBinder>
+                  <Col>
+                    <IceFormBinder
+                      name="name"
+                    >
+                      <Input />
+                    </IceFormBinder>
+                  </Col>
+                  <Col span='4' style={{ marginLeft: '20px' }}>
+                    部门：
                     </Col>
-                    <Col span='4' style={{marginLeft:'20px'}}>
-                      部门：
-                    </Col>
-                    <Col>
-                      <IceFormBinder
-                        name="department"
-                      >
-                        <Input  />
-                      </IceFormBinder>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col style={{textAlign:'right'}}>
-                  <Button type="primary" size="medium" onClick={this.submit}>
-                    查询
+                  <Col>
+                    <IceFormBinder
+                      name="department"
+                    >
+                      <Input />
+                    </IceFormBinder>
+                  </Col>
+                </Row>
+              </Col>
+              <Col style={{ textAlign: 'right' }}>
+                <Button type="primary" size="medium" onClick={this.submit}>
+                  查询
                   </Button>
-                  <Button size="medium"  style={styles.resetBtn} onClick={this.reset}>
-                    重置
+                <Button size="medium" style={styles.resetBtn} onClick={this.reset}>
+                  重置
                   </Button>
-                </Col>
-              </Row>
-            </div>
-          </IceFormBinderWrapper>
+              </Col>
+            </Row>
+          </div>
+        </IceFormBinderWrapper>
 
       </div>
     );

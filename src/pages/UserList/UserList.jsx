@@ -22,7 +22,7 @@ export default class UserAudit extends Component {
       value: {
 
       },
-      current:1,
+      current: 1,
     };
   }
   getPageData = (current) => {
@@ -55,7 +55,7 @@ export default class UserAudit extends Component {
   componentWillMount() {
     this.getPageData(1);
   }
-  render() { 
+  render() {
 
     const editAdmin = [
       { text: '首页', link: '' },
@@ -71,9 +71,9 @@ export default class UserAudit extends Component {
           </Col>
         </Row>
       </div>
-      <CustomBreadcrumb 
-      dataSource={editAdmin}
-      current={this.state.current}
+      <CustomBreadcrumb
+        dataSource={editAdmin}
+        current={this.state.current}
       />
       <ColumnForm />
 

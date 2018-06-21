@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import IceContainer from '@icedesign/container';
-import { Chart, Axis, Geom, Tooltip, Legend } from 'bizcharts';
+import { Chart, Axis, Geom, Tooltip, Legend,Feedback } from 'bizcharts';
 import { DataSet } from '@antv/data-set';
 import axios from 'axios'
 export default class ChartBar extends Component {
@@ -21,15 +21,14 @@ export default class ChartBar extends Component {
     axios
       .get("api/PersonnelMS/department_getNames")
       .then((res) => {
-        console.log("resss", res.data.content)
-        console.log("resss2", res.data.content.col)
-        console.log("resss3", res.data.content.res)
-        const dataSource = res.data.content.res
-        const names = res.data.content.col.names
-        this.setState({
-          dataSource: dataSource,
-          col: names
-        })
+        if (res.data.code === 0) {
+          const dataSource = res.data.content.res
+          const names = res.data.content.col.names
+          this.setState({
+            dataSource: dataSource,
+            col: names
+          })
+        }
       })
   }
 

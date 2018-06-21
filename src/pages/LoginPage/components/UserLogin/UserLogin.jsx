@@ -132,7 +132,7 @@ export default class UserLogin extends Component {
         />
         <div style={styles.contentWrapper} className="content-wrapper">
           <h2 style={styles.slogan} className="slogan">
-            欢迎使用 <br /> 蚂蚁管理系统
+            欢迎使用<br/>蚂蚁人事管理系统
           </h2>
           <div style={styles.formContainer}>
             <h4 style={styles.formTitle}>登录</h4>
@@ -197,10 +197,6 @@ export default class UserLogin extends Component {
                   <Link to="/register" style={styles.link}>
                     立即注册
                   </Link>
-                  <span style={styles.line}>|</span>
-                  <a href="/" style={styles.link}>
-                    忘记密码
-                  </a>
                 </Row>
               </div>
             </IceFormBinderWrapper>

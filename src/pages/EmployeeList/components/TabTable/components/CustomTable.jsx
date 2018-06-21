@@ -63,10 +63,9 @@ export default class CustomTable extends Component {
     axios.post(`/api/PersonnelMS/employee_romove`, JSON.parse(e_id)).then((res) => {
       console.log('res: ', res);
       if (res.data.code === 0) {
-        Feedback.toast.success("删除成功");
+        Feedback.toast.success("操作成功");
       } else {
-        Feedback.toast.error("删除失败，未知错误！");
-
+        Feedback.toast.error("操作成功，未知错误！");
       }
       // this.getPageData(sdji, jis)
     });
@@ -124,9 +123,6 @@ export default class CustomTable extends Component {
   render() {
     const role = cookie.load("role")
     const { dataSource } = this.props
-    console.log("sss123", this.props)
-    console.log("!!!!", role)
-
     return (
 
       <div>
@@ -135,24 +131,15 @@ export default class CustomTable extends Component {
           {/* <Button onClick={this.props.call}>
               <Icon type="add" />增加
           </Button> */}
-          <Link to={`/employee/add/`}>
-            <Button
-              type="primary"
-            >
-              <Icon type="add" />增加
+          {
+            cookie.load("role") === "3" ? <Link to={`/employee/add/`}>
+              <Button
+                type="primary"
+              >
+                <Icon type="add" />增加
             </Button>
-          </Link>
-          <Button
-            onClick={this.clearSelectedKeys}
-            style={styles.batchBtn}
-            type="normal"
-          >
-            <Icon type="close" />清空选中
-        </Button>
-          <ButtonGroup style={styles.batchBtn}>
-            <Button type="normal">运行</Button>
-            <Button type="normal">禁用</Button>
-          </ButtonGroup>
+            </Link> : null}
+
           <a href="/" download>
             <Button>
               <Icon size="small" type="download" /> 导出信息
@@ -164,10 +151,6 @@ export default class CustomTable extends Component {
           dataSource={dataSource}
           isLoading={this.state.__loading}
           align={'center'}
-          rowSelection={{
-            ...this.rowSelection,
-            selectedRowKeys: this.state.selectedRowKeys,
-          }}
         >
           <Table.Column title="ID" align={'center'} dataIndex="e_id" width={40} />
           <Table.Column title="姓名" align={'center'} dataIndex="name" width={60} />

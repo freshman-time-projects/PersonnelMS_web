@@ -31,8 +31,9 @@ export default class TagTable extends Component {
   }
 
   getUserData = (current) => {
+    console.log("current+++",current)
     axios
-      .get('/api/PersonnelMS/salary_getSalary')
+      .get(`/api/PersonnelMS/salary_getSalary?current=${current}`)
       .then((res) => {
         const data = res.data
         console.log("**", res)
@@ -85,19 +86,35 @@ export default class TagTable extends Component {
       UserList: value,
     });
   };
+  DatahandleChange = (current) => {
+    this.setState({
+      current
+    });
+    console.log("current", current)
+    this.getUserData(current)
+  }
 
-  bonus = () => {
+  bonus = (index, value, record) => {
+    const { UserList } = this.state
+    console.log("&&*",UserList[index].s_id)
     axios
-      .get("api/PersonlMS/salary_bonus")
+      .get(`api/PersonlMS/salary_update?s_id=${UserList[index].s_id}`)
+      .then((res) => {
+        if(res.data.code === 0){
+          this.getUserData(this.state.current)
+        Feedback.toast.success(res.data.msg)
+        }else
+        Feedback.toast.error(res.data.msg)
+        })
     // this.props.history.push(`/user/userDetail/${index}`)
-    window.location.href = "#/user/userDetail";
+    // window.location.href = "#/user/userDetail";
   }
 
   renderOperator = (value, index, record) => {
     return (
       <Row>
         <Col>
-          <Button onClick={this.detail} type="secondary">奖励</Button>
+          <Button onClick={() => this.bonus(index, value, record)} type="secondary">奖励</Button>
         </Col>
         {/* <EditDialog
           index={index}
@@ -123,34 +140,6 @@ export default class TagTable extends Component {
       <div className="tag-table">
         {/* <IceCard> */}
         <IceContainer>
-          <FormBinderWrapper onChange={this.formChange}>
-            <div style={{ marginBottom: '25px', borderBottom: '2px solid #D5D5D5' }}>
-              <div style={styles.selectTitle}><span>按条件查询</span></div>
-              <Row style={styles.formRow}>
-                <Col span='3' style={styles.label}>
-                  用户姓名:{' '}
-                </Col>
-                <Col span="10">
-                  <FormBinder>
-                    <Input name="username" placeholder="请输入用户姓名" />
-                  </FormBinder>
-                </Col>
-                <Col span='3' style={styles.label} >
-                  用户ID:{' '}
-                </Col>
-                <Col span="10">
-                  <FormBinder>
-                    <Input name="id" placeholder="请输入用户id" />
-                  </FormBinder>
-                </Col>
-              </Row>
-
-            </div>
-          </FormBinderWrapper>
-
-          <Row>
-            {/* <SimpleFormDialog /> */}
-          </Row>
 
           <Table
             locale={{ empty: '没有查询到符合条件的记录' }}
@@ -174,10 +163,11 @@ export default class TagTable extends Component {
           {/* </IceCard> */}
 
           <div style={{ textAlign: 'right', margin: '20px 10px' }}>
-            <Pagination 
-            defaultCurrent={1}
-            current={this.state.current}
-            total={this.state.salaryCount}
+            <Pagination
+              defaultCurrent={1}
+              current={this.state.current}
+              total={this.state.salaryCount}
+              onChange={this.DatahandleChange}
             />
           </div>
 
@@ -198,5 +188,52 @@ const styles = {
   selectTitle: {
     fontSize: '20px',
 
-  }
+  },
+  rowTop: {
+    marginLeft: '20px',
+    // marginTop: '10px'
+  },
+  rowBottom: {
+    marginLeft: '80px',
+    // width: '60%',
+    fontSize: '16px'
+  },
+  title: {
+    fontSize: '20px',
+    color: '#000'
+    // marginBottom: '20px'
+  },
+  top: {
+    padding: '15px 20px 15px 25px',
+    background: '#fff',
+    borderRadius: '5px 5px 0 0'
+  },
+  center: {
+    background: '#eee',
+    padding: '25px 40px 40px 40px',
+    borderRadius: '5px'
+  },
+  pagination: {
+    textAlign: 'right',
+    paddingTop: '20px',
+    paddingBottom: '10px',
+  },
+  container: {
+    paddingBottom: 0,
+  },
+  formItem: {
+    height: '28px',
+    lineHeight: '28px',
+    marginBottom: '30px',
+  },
+  formLabel: {
+    textAlign: 'right',
+  },
+  btns: {
+    margin: '25px 0',
+  },
+  resetBtn: {
+    marginLeft: '20px',
+    textAlign: 'right',
+  },
 };

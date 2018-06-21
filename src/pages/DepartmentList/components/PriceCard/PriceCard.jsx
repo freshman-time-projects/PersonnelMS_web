@@ -81,10 +81,10 @@ export default class PriceCard extends Component {
                   <div style={styles.item}>
                     <div style={styles.head}>
                       <Row align="top">
-                        <Col fixedSpan="4"><div style={{ height: "100%", paddingTop: '10px' }}><Icon size="xl" type="loading" /></div></Col>
+                        <Col fixedSpan="4"><div style={{ height: "100%", paddingTop: '10px' }}><Icon size="xl" type="atm" /></div></Col>
                         <Col>
                           <div className="onHover" style={styles.centerRight}>
-                            <h3 style={styles.title}><Link to={`/spec/index/${item.token}`}>{item.name}</Link><Icon className="delete" style={{ float: 'right', paddingRight: '8px' }} onClick={() => { this.onDelete(`${item.d_id}`) }} type="ashbin" /></h3>
+                            <h3 style={styles.title}><Link to={`/employee/list`}>{item.name}</Link><Icon className="delete" style={{ float: 'right', paddingRight: '8px' }} onClick={() => { this.onDelete(`${item.d_id}`) }} type="ashbin" /></h3>
                             <p style={styles.description}>部门ID：{item.d_id}</p>
                             <p style={styles.description}>管理总管：{item.manager}</p>
                             <p style={styles.description}>部门描述：{item.description}</p>
@@ -93,7 +93,7 @@ export default class PriceCard extends Component {
                       </Row>
                     </div>
                     <div className="issue" style={styles.buyBtn}>
-                      <Col l='8'><Link to={`/employee/${item.token}`}>员工数量：<b>{item.sumpeople}</b></Link></Col>
+                      <Col l='8'><Link to={`/employee/list`}>员工数量：<b>{item.sumpeople}</b></Link></Col>
                       {/* <Col l='16'><Link to={`/department/${item.token}`}>创建时间：<b>{item.dataItemCount}</b></Link></Col> */}
                     </div>
                   </div>

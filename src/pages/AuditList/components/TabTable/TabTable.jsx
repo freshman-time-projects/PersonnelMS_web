@@ -54,11 +54,6 @@ export default class TabTable extends Component {
         key: 'email',
       },
       {
-        title: '毕业学校',
-        dataIndex: 'school',
-        key: 'school',
-      },
-      {
         title: '操作',
         key: 'action',
         render: (value, index, record) => {

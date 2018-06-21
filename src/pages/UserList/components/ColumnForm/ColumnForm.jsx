@@ -25,31 +25,24 @@ export default class ColumnForm extends Component {
       value: {
         userName: '',
         userNumber: '',
-        userphone: '',
-        userEmail: '',
-        userRemark: '',
-        userStatus: '',
-        startValue: null,
-        endValue: null,
-        endOpen: false
       },
+      totalCount: 0,
+      current: 1
     };
   }
   //日期 
-
   getPageData = (current) => {
     console.log('current: ', current);
     axios
-      .get(`api/PersonnelMS/user_getAllPage`).then((res) => {
+      .get(`api/PersonnelMS/user_getAllPage?current=${current}`).then((res) => {
         const data = res.data;
         // const { totalCount } = data.content
         console.log("datass", res)
         if (data.code === 0) {
-          console.log("data2222", data)
-          console.log("data2222", data.content)
+          console.log("data", data)
           this.setState({
             dataList: data.content,
-            totalCount: data.totalCount,
+            totalCount: data.userCount,
             current,
             // totalCount
           });
@@ -113,21 +106,16 @@ export default class ColumnForm extends Component {
       value,
     });
   };
+
   reset = () => {
     this.setState({
       value: {
-        userName: '',
-        userNumber: '',
-        userphone: '',
-        userEmail: '',
-        userRemark: '',
-        userStatus: '',
-        startValue: null,
-        endValue: null,
-        endOpen: false
+        username: '',
+        email: '',
       },
     });
   };
+
   submit = () => {
     this.formRef.validateAll((error, value) => {
       console.log('error', error, 'value', value);
@@ -135,153 +123,75 @@ export default class ColumnForm extends Component {
         // 处理表单报错
       }
       // 提交当前填写的数据
+      axios
+        .post("api/PersonnelMS/user_search", value)
+        .then((res) => {
+          console.log("reess", res)
+          this.setState({
+            dataList: res.data.content
+          })
+        })
     });
   };
-
   render() {
     const { startValue, endValue, endOpen, dataList } = this.state;
-    console.log("----",dataList)
+    console.log("----", dataList)
     return (
       <div className="column-form" style={{ backgroundColor: '#EEE', padding: '30px' }}>
         <IceContainer title="用户信息" style={styles.container}>
-          <IceFormBinderWrapper
-            ref={(formRef) => {
-              this.formRef = formRef;
-            }}
-            value={this.state.value}
-            onChange={this.onFormChange}
-          >
-            <div>
-              <Row wrap>
-                <Col xxs="24" s="12" l="12">
-                  <Row style={styles.formItem}>
-                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                      用户姓名:
-                            </Col>
-                    <Col s="12" l="10">
-                      <IceFormBinder
-                        name="userName"
-                        required
-                        message="姓名填写!"
-                      >
-                        <Input style={{ width: '100%' }} />
-                      </IceFormBinder>
-                      <IceFormError name="userName" />
-                    </Col>
-                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                      用户编号:
-                            </Col>
-                    <Col s="12" l="10">
-                      <IceFormBinder
-                        name="userNumber"
-                        required
-                        message="必须填写"
-                      >
-                        <Input style={{ width: '100%' }} />
-                      </IceFormBinder>
-                      <IceFormError name="userNumber" />
-                    </Col>
+          <div className="column-form">
 
-                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                      用户备注:
-                            </Col>
+            <IceFormBinderWrapper
+              ref={(formRef) => {
+                this.formRef = formRef;
+              }}
+              value={this.state.value}
+              onChange={this.onFormChange}
+            >
+              <div style={{ borderBottom: '3px solid' }}>
+                <Row style={{ margin: '25px' }}>
+                  <Col>
+                    <Row style={styles.formItem}>
+                      <Col span='4' style={{ marginLeft: '20px' }}>
+                        用户名：
+</Col>
+                      <Col>
+                        <IceFormBinder
+                          name="username"
+                        >
+                          <Input />
+                        </IceFormBinder>
+                      </Col>
+                      <Col span='4' style={{ marginLeft: '20px' }}>
+                        邮箱：
+</Col>
+                      <Col>
+                        <IceFormBinder
+                          name="email"
+                        >
+                          <Input />
+                        </IceFormBinder>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col style={{ textAlign: 'right' }}>
+                    <Button type="primary" size="medium" onClick={this.submit}>
+                      查询
+</Button>
+                    <Button size="medium" style={styles.resetBtn} onClick={this.reset}>
+                      重置
+</Button>
+                  </Col>
+                </Row>
+              </div>
+            </IceFormBinderWrapper>
 
-                    <Col s="12" l="10">
-                      <IceFormBinder
-                        name="userRemark"
-                        required
-                        message="必须填写"
-                      >
-                        <Input style={{ width: '100%' }} />
-                      </IceFormBinder>
-                      <IceFormError name="userRemark" />
-                    </Col>
-                  </Row>
-
-                  <Row style={styles.formItem}>
-                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                      用户邮箱
-                            </Col>
-
-                    <Col s="12" l="10">
-                      <IceFormBinder
-                        name="userEmail"
-                        required
-                        message="必须填写"
-                      >
-                        <Input style={{ width: '100%' }} />
-                      </IceFormBinder>
-                      <IceFormError name="userEmail" />
-                    </Col>
-                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                      用户电话:
-                            </Col>
-                    <Col s="12" l="10">
-                      <IceFormBinder
-                        name="userphone"
-                        required
-                        message="必填"
-                      >
-                        <Input style={{ width: '100%' }} />
-                      </IceFormBinder>
-                      <IceFormError name="userphone" />
-                    </Col>
-                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                      用户状态:
-                    </Col>
-
-                    <Col s="12" l="10">
-                      <IceFormBinder
-                        name="userStatus"
-                        required
-                        message="必须填写"
-                      >
-                        <Input style={{ width: '100%' }} />
-                      </IceFormBinder>
-                      <IceFormError name="userStatus" />
-                    </Col>
-                  </Row>
-                  <Row style={styles.formItem}>
-                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                      注册时间:
-                            </Col>
-
-                    <Col s="12" l="10">
-                      <DatePicker
-                        style={{ width: '100%' }}
-                        disabledDate={this.disabledEndDate.bind(this)}
-                        showTime
-                        value={endValue}
-                        placeholder="End"
-                        onChange={this.onEndChange.bind(this)}
-                        open={endOpen}
-                        onOpenChange={this.handleEndOpenChange.bind(this)}
-                      />
-                    </Col>
-
-                  </Row>
-                </Col>
-              </Row>
-
-              <Row style={styles.btns}>
-
-                <Col xxs="8" s="2" l="12" style={styles.formLabel}>
-
-                </Col>
-                <Col s="12" l="10">
-                  <Button type="primary" onClick={this.submit}>
-                    查询
-                  </Button>
-                  <Button style={styles.resetBtn} onClick={this.reset}>
-                    重置
-                  </Button>
-                </Col>
-              </Row>
-            </div>
-          </IceFormBinderWrapper>
+          </div>
         </IceContainer>
 
-        <SelectTable dataList={dataList} />
+        <SelectTable 
+        totalCount={this.state.totalCount}
+        dataList={dataList} />
       </div>
     );
   }

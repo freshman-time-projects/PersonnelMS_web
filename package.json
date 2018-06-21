@@ -56,10 +56,10 @@
   },
   "scaffoldConfig": {
     "name": "ice-design-lite",
-    "title": "E人事管理",
+    "title": "蚂蚁管理系统",
     "screenshot": "https://img.alicdn.com/tfs/TB1IM1JmuuSBuNjy1XcXXcYjFXa-1920-1080.png"
   },
-  "title": "E人事管理",
+  "title": "蚂蚁管理系统",
   "themeConfig": {
     "theme": "dark",
     "primaryColor": "#3080FE",

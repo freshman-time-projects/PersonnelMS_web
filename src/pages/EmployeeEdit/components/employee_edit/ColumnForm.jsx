@@ -49,17 +49,6 @@ export default class ColumnForm extends Component {
     });
   };
 
-  reset = () => {
-    this.setState({
-      value: {
-        contractId: '',
-        operator: '',
-        settleAccount: '',
-        period: '',
-        currency: 'usd',
-      },
-    });
-  };
 
   submit = () => {
     this.formRef.validateAll((errors, value) => {
@@ -99,7 +88,7 @@ export default class ColumnForm extends Component {
             onChange={this.onFormChange}
           >
             <div>
-              <Card style={{ width: '100%', marginBottom: '20px',minHeight:'200px' }} >
+              <Card style={{ width: '100%', marginBottom: '20px', minHeight: '200px' }} >
                 <Row wrap>
                   <Col xxs="24" s="12" l="12">
                     <Row style={styles.formItem}>
@@ -126,17 +115,36 @@ export default class ColumnForm extends Component {
                         性别：
                     </Col>
                       <Col s="12" l="12">
-                        <IceFormBinder
-                          name="sex"
-                          required
-                          message="情确认您的性别"
-                        >
-                          <Input style={{ width: '100%' }} />
+                      <IceFormBinder name="sex">
+                          <Select
+                            className="next-form-text-align"
+                            style={{ width: '100%' }}
+                            required
+                            message="请选择您的性别"
+                            dataSource={[
+                              { label: '女', value: '女' },
+                              { label: '男', value: '男' },
+                            ]}
+                          />
                         </IceFormBinder>
                         <IceFormError name="sex" />
                       </Col>
                     </Row>
-
+                    <Row style={styles.formItem}>
+                      <Col xxs="8" s="6" l="4" style={styles.formLabel}>
+                        家庭住址：
+                    </Col>
+                      <Col s="12" l="12">
+                        <IceFormBinder
+                          name="address"
+                          required
+                          message="请输入您的现居地"
+                        >
+                          <Input style={{ width: '100%' }} />
+                        </IceFormBinder>
+                        <IceFormError name="address" />
+                      </Col>
+                    </Row>
                   </Col>
 
                   <Col xxs="24" s="12" l="12">
@@ -207,30 +215,16 @@ export default class ColumnForm extends Component {
                     </Col>
                     <Col s="12" l="12">
                       <IceFormBinder
-                        name="idcard"
+                        name="idCard"
                         required
                         message="请输入您的身份证"
                       >
                         <Input style={{ width: '100%' }} />
                       </IceFormBinder>
-                      <IceFormError name="idcard" />
+                      <IceFormError name="idCard" />
                     </Col>
                   </Row>
-                  <Row style={styles.formItem}>
-                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
-                      家庭住址：
-                    </Col>
-                    <Col s="12" l="12">
-                      <IceFormBinder
-                        name="address"
-                        required
-                        message="请输入您的现居地"
-                      >
-                        <Input style={{ width: '100%' }} />
-                      </IceFormBinder>
-                      <IceFormError name="address" />
-                    </Col>
-                  </Row>
+
 
                 </Col>
 
@@ -255,6 +249,21 @@ export default class ColumnForm extends Component {
                       <IceFormError name="marry" />
                     </Col>
                   </Row>
+                  <Row style={styles.formItem}>
+                    <Col xxs="8" s="6" l="4" style={styles.formLabel}>
+                      毕业学校：
+                    </Col>
+                    <Col s="12" l="12">
+                      <IceFormBinder
+                        name="school"
+                        required
+                        message="请输入您的毕业学校"
+                      >
+                        <Input style={{ width: '100%' }} />
+                      </IceFormBinder>
+                      <IceFormError name="school" />
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
               <Row style={styles.btns}>
@@ -263,10 +272,7 @@ export default class ColumnForm extends Component {
                 </Col>
                 <Col s="12" l="10">
                   <Button type="primary" onClick={this.submit}>
-                    立即创建
-                  </Button>
-                  <Button style={styles.resetBtn} onClick={this.reset}>
-                    重置
+                    确认修改
                   </Button>
                 </Col>
               </Row>
